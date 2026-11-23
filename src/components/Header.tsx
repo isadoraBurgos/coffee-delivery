@@ -1,6 +1,7 @@
-import { Coffee as CoffeeIcon, MapPin, ShoppingCart } from 'lucide-react'
+import { MapPin, ShoppingCart } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import logo from '../assets/logo.jpg'
 import { useCart } from '../hooks/useCart'
 import { ThemeToggle } from './ThemeToggle'
 
@@ -37,15 +38,16 @@ const Brand = styled(Link)`
   }
 `
 
-const BrandMark = styled.span`
-  display: grid;
-  place-items: center;
-  width: 2rem;
-  height: 2rem;
+const LogoImage = styled.img`
+  display: block;
+  width: auto;
+  height: 2.75rem;
   flex-shrink: 0;
+  padding: 2px;
+  border: 1px solid ${({ theme }) => theme.colors.brandPurple};
   border-radius: 50%;
-  background: ${({ theme }) => theme.colors.brandYellow};
-  color: ${({ theme }) => theme.colors.onBrandYellow};
+  background: ${({ theme }) => theme.colors.surface};
+  object-fit: contain;
 `
 
 const Location = styled.div`
@@ -113,9 +115,13 @@ export function Header() {
     <HeaderBar>
       <Container>
         <Brand to="/" aria-label="Coffee Delivery — página inicial">
-          <BrandMark aria-hidden="true">
-            <CoffeeIcon size={18} />
-          </BrandMark>
+          <LogoImage
+            src={logo}
+            alt=""
+            aria-hidden="true"
+            width={44}
+            height={44}
+          />
           <span>Coffee Delivery</span>
         </Brand>
 

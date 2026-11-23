@@ -19,25 +19,28 @@
 
 > **Etapa 7 (mapeamento):** o pedido cita `RF-14`/`RF-15`, mas nesta baseline esses IDs são pagamento e finalização. O escopo de tema/responsividade/acessibilidade corresponde a **RF-16 + RNF-01/RNF-02** e às tarefas **T-02 + T-08 + T-16**, executadas em conjunto para evitar estados intermediários sem tokens.
 
+> **Etapa 8 (identidade visual):** logo original gerada com IA, favicon, título e branding documentado materializam **RNF-03**. Como o plano original não previa uma tarefa de branding, ela é registrada como **T-18** e marcada como concluída nesta etapa, sem renumerar as demais.
+
 ## 2. Checklist ordenado
 
 - [x] **T-01** — Documentação de referência (concluída, aguardando validação)
-- [ ] **T-02** — Tokens de tema, fontes e estilos globais
-- [ ] **T-03** — Tipagens do domínio e catálogo local
-- [ ] **T-04** — Utilitários monetários e storage seguro
-- [ ] **T-05** — Reducer puro do carrinho
-- [ ] **T-06** — Context do carrinho com persistência
-- [ ] **T-07** — Home: catálogo e seleção de quantidade
-- [ ] **T-08** — Cabeçalho com badge e alternador de tema
-- [ ] **T-09** — Checkout: itens e resumo financeiro
-- [ ] **T-10** — Schema Zod do checkout
-- [ ] **T-11** — Cliente ViaCEP e hook de consulta
-- [ ] **T-12** — Formulário de endereço com React Hook Form
-- [ ] **T-13** — Seletor de forma de pagamento
-- [ ] **T-14** — Finalização do pedido
-- [ ] **T-15** — Página de confirmação (`/success`)
-- [ ] **T-16** — Varredura de responsividade e acessibilidade
+- [x] **T-02** — Tokens de tema, fontes e estilos globais ✅
+- [x] **T-03** — Tipagens do domínio e catálogo local ✅
+- [x] **T-04** — Utilitários monetários e storage seguro ✅
+- [x] **T-05** — Reducer puro do carrinho ✅
+- [x] **T-06** — Context do carrinho com persistência ✅
+- [x] **T-07** — Home: catálogo e seleção de quantidade ✅
+- [x] **T-08** — Cabeçalho com badge e alternador de tema ✅
+- [x] **T-09** — Checkout: itens e resumo financeiro ✅
+- [x] **T-10** — Schema Zod do checkout ✅
+- [x] **T-11** — Cliente ViaCEP e hook de consulta ✅
+- [x] **T-12** — Formulário de endereço com React Hook Form ✅
+- [x] **T-13** — Seletor de forma de pagamento ✅
+- [x] **T-14** — Finalização do pedido ✅
+- [x] **T-15** — Página de confirmação (`/success`) ✅
+- [x] **T-16** — Varredura de responsividade e acessibilidade ✅
 - [ ] **T-17** — Verificação final e testes automatizados
+- [x] **T-18** — Identidade visual com IA: logo, favicon e branding ✅ (Etapa 8)
 
 ---
 
@@ -196,6 +199,15 @@
 - **Critério de pronto:** testes para `cartReducer`, `currency`, `checkoutSchema` e `viacep`; `npm run build` e `npm run lint` passam; fluxos FA-01 a FA-09 verificados manualmente.
 - **Commit sugerido:** `test: adiciona testes de reducer, utilitários e schemas`
 
+### T-18 — Identidade visual com IA: logo, favicon e branding
+
+- **Status:** ✅ Concluída (Etapa 8, aguardando validação)
+- **Objetivo:** substituir o logo provisório pela arte original gerada com IA, configurar favicon/título e documentar o branding.
+- **Requisitos relacionados:** RNF-03, RNF-02, RF-16.
+- **Arquivos afetados:** `src/assets/logo.jpg`, `src/components/Header.tsx`, `src/vite-env.d.ts`, `public/favicon.svg`, `index.html`, `README.md`, `docs/{PRD_SPEC,TECH_SPEC,TASKS_SPEC}.md`.
+- **Critério de pronto:** logo com 44 px de altura no Header, alinhada aos demais controles e legível nos dois temas; favicon vetorial derivado da marca; `<title>` atualizado; seção de Branding com IA no README; build/lint ok.
+- **Commit sugerido:** `feat: adiciona identidade visual com logo e favicon gerados por ia`
+
 ---
 
 ## 4. Matriz de rastreabilidade
@@ -214,7 +226,8 @@
 | RN-06, RN-07, RN-08 | T-10, T-11, T-12, T-13 |
 | RN-10 | T-02, T-04, T-06, T-15 |
 | RNF-01, RNF-02 | T-02, T-16 |
+| RNF-03 | T-18 |
 
 ## 5. Pronto para começar
 
-A próxima ação, **após a sua validação destes documentos**, é a **T-02 — Tokens de tema, fontes e estilos globais**. Nenhum componente de funcionalidade deve ser escrito antes disso.
+As tarefas **T-01 a T-16** e **T-18** estão concluídas e validadas nas etapas anteriores. A próxima ação pendente é a **T-17 — Verificação final e testes automatizados**, a ser executada somente após a validação desta Etapa 8.

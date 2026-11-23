@@ -59,7 +59,7 @@ A aplicação segue uma arquitetura em camadas, com fronteiras explícitas:
 
 ```text
 src/
-├── assets/        # imagens, logo original e ícones locais (atualmente vazia)
+├── assets/        # logo original (logo.jpg), ilustrações dos cafés e do hero
 ├── components/    # CoffeeCard, Header, ThemeToggle, DeliveryAddressForm, ...
 ├── pages/         # Home, Checkout, Success — uma página por rota
 ├── contexts/      # CartContext, OrderContext, ThemeContext + providers
@@ -274,10 +274,17 @@ const checkoutSchema = z.object({
 
 - **Tokens semânticos** em `src/styles/themes/` (`light.ts`, `dark.ts`, `index.ts`): `background`, `surface`, `card`, `input`, `textTitle`, `textSubtitle`, `textLabel`, `border`, `brandYellow`, `brandPurple`, `feedbackError` e complementares (`surfaceAlt`, `borderStrong`, `brandPurpleHover`, `brandPurpleSubtle`, `brandYellowHover`, `onBrandPurple`, `onBrandYellow`, `feedbackErrorSubtle`, `focusRing`). Nenhum componente usa cor literal.
 - Contraste verificado: textos ≥ 4,5:1 nos pares usados; bordas de controles interativos ≥ 3:1 via `borderStrong`; foco via `focusRing`.
-- `src/styles/GlobalStyle.ts` aplica `createGlobalStyle` com `body`, foco visível (`:focus-visible`), `min-width: 320px` e `max-width: 100%` para evitar rolagem horizontal.
+- `src/styles/GlobalStyle.ts` aplica `createGlobalStyle` com `body`, foco visível (`:focus-visible`) e `max-width: 100%` para evitar rolagem horizontal (sem `min-width` rígido, que causava overflow com barra de rolagem em 320 px).
 - **Tipografias:** Baloo 2 para títulos e Roboto para texto; carregadas via `<link>` no `index.html` (T-02).
 - **Breakpoints mobile-first:** `320px` (base), `375px`, `768px` (tablet), `1280px` (desktop). Grid de cafés: 1 coluna no mobile, 2 no tablet, 3 no desktop. Checkout permanece empilhado (endereço/pagamento acima de itens/resumo) até `1280px`.
 - **Acessibilidade:** contraste AA, labels associados, foco visível, ícones decorativos com `aria-hidden`, alvos de toque ≥ 44 px e botões com texto acessível (RNF-02/RF-16).
+
+### 10.1 Identidade visual (RNF-03 / Etapa 8)
+
+- **Logo original:** `src/assets/logo.jpg` (1024×1024), gerada com Gemini/Imagen. Substitui o marca provisória em `Header`, renderizada a 44 px de altura com `object-fit: contain`, borda circular e fundo de superfície vindos dos tokens, para preservar o contorno roxo também no tema escuro.
+- **Favicon:** `public/favicon.svg`, versão vetorial simplificada (círculo roxo, xícara creme e vapor dourado) derivada do conceito da mascote; reference mantida em `index.html`.
+- **Título da página:** `Coffee Delivery - Fast & Fresh Coffee` em `index.html`.
+- **Branding:** ferramenta, conceito, paleta, justificativa e comportamento claro/escuro documentados no `README.md`. Nenhuma biblioteca nova é adicionada; a imagem é asset local importado pelo Vite (tipagem via `src/vite-env.d.ts`).
 
 ## 11. Formatação monetária
 
@@ -305,6 +312,7 @@ const checkoutSchema = z.object({
 | RF-14 | `src/components/PaymentMethodSelector.tsx`, `src/data/constants.ts` |
 | RF-15 | `src/types/order.ts`, `src/contexts/OrderContext.tsx`, `src/pages/Checkout.tsx`, `src/components/OrderSuccess.tsx`, `src/pages/Success.tsx` |
 | RF-16 | `src/contexts/ThemeContext.tsx`, `src/hooks/useTheme.ts`, `src/components/ThemeToggle.tsx`, `src/styles/themes/`, `src/styles/GlobalStyle.ts`, `src/data/constants.ts` |
+| RNF-03 | `src/assets/logo.jpg`, `src/components/Header.tsx`, `public/favicon.svg`, `index.html`, `README.md`, `src/vite-env.d.ts` |
 | RN-01/02 | `src/utils/currency.ts`, `src/data/constants.ts` |
 | RN-03/04/05/09 | `src/reducers/cartReducer.ts`, `src/contexts/OrderContext.tsx` |
 | RN-06/07/08 | `src/schemas/checkoutSchema.ts`, `src/hooks/useCepLookup.ts` |
