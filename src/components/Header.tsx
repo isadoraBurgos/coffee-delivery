@@ -1,6 +1,7 @@
 import { Coffee as CoffeeIcon, MapPin, ShoppingCart } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import { useCart } from '../hooks/useCart'
 
 const HeaderBar = styled.header`
   background: ${({ theme }) => theme.colors.background};
@@ -68,8 +69,22 @@ const CartButton = styled.button`
   }
 `
 
+const Badge = styled.span`
+  display: grid;
+  place-items: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 0.25rem;
+  border-radius: 999px;
+  background: ${({ theme }) => theme.colors.surface};
+  color: ${({ theme }) => theme.colors.text};
+  font-size: 0.75rem;
+  font-weight: 700;
+`
+
 export function Header() {
   const navigate = useNavigate()
+  const { itemCount } = useCart()
 
   return (
     <HeaderBar>
@@ -91,10 +106,11 @@ export function Header() {
         <CartButton
           type="button"
           onClick={() => navigate('/checkout')}
-          aria-label="Ir para o carrinho"
+          aria-label={`Ir para o carrinho, ${itemCount} ${itemCount === 1 ? 'item' : 'itens'}`}
         >
           <ShoppingCart size={18} aria-hidden="true" />
           <span>Carrinho</span>
+          <Badge aria-hidden="true">{itemCount}</Badge>
         </CartButton>
       </Container>
     </HeaderBar>

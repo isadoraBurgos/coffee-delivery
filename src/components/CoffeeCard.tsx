@@ -1,6 +1,7 @@
 import { ShoppingCart } from 'lucide-react'
 import { useState } from 'react'
 import styled from 'styled-components'
+import { useCart } from '../hooks/useCart'
 import type { Coffee } from '../types/coffee'
 import { formatBRL } from '../utils/currency'
 import { QuantityInput } from './QuantityInput'
@@ -93,6 +94,7 @@ interface CoffeeCardProps {
 
 export function CoffeeCard({ coffee }: CoffeeCardProps) {
   const [quantity, setQuantity] = useState(1)
+  const { addCoffee } = useCart()
 
   return (
     <Card>
@@ -116,7 +118,11 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
         />
       </Footer>
 
-      <AddButton type="button" disabled title="A lógica do carrinho será implementada na próxima etapa">
+      <AddButton
+        type="button"
+        onClick={() => addCoffee(coffee, quantity)}
+        aria-label={`Adicionar ${quantity} ${coffee.name} ao carrinho`}
+      >
         <ShoppingCart size={15} aria-hidden="true" />
         Adicionar
       </AddButton>

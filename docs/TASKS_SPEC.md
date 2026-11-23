@@ -80,10 +80,10 @@
 ### T-05 — Reducer puro do carrinho
 
 - **Status:** ⏳ Pendente
-- **Objetivo:** implementar as transições `ADD`, `INCREMENT`, `DECREMENT`, `REMOVE` e `CLEAR`.
+- **Objetivo:** implementar as transições `ADD_ITEM`, `INCREMENT_ITEM`, `DECREMENT_ITEM`, `REMOVE_ITEM` e `CLEAR_CART`.
 - **Requisitos relacionados:** RF-04, RF-06, RF-07, RN-03, RN-04, RN-09.
 - **Arquivos afetados:** `src/reducers/cartReducer.ts`, `src/types/index.ts`.
-- **Critério de pronto:** ações são puras e imutáveis; `ADD` soma quantidades sem duplicar `coffeeId`; `DECREMENT` de 1 remove o item; nenhum estado com quantidade ≤ 0; build/lint ok.
+- **Critério de pronto:** ações são puras e imutáveis; `ADD_ITEM` soma quantidades sem duplicar `coffeeId`; `DECREMENT_ITEM` de 1 remove o item; nenhum estado com quantidade ≤ 0; build/lint ok.
 - **Commit sugerido:** `feat: implementa reducer do carrinho`
 
 ### T-06 — Context do carrinho com persistência

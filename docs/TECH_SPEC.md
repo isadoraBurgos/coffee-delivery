@@ -143,11 +143,11 @@ export interface CartState {
 }
 
 export type CartAction =
-  | { type: 'ADD'; payload: { coffeeId: string; quantity: number } }
-  | { type: 'INCREMENT'; payload: { coffeeId: string } }
-  | { type: 'DECREMENT'; payload: { coffeeId: string } }
-  | { type: 'REMOVE'; payload: { coffeeId: string } }
-  | { type: 'CLEAR' }
+  | { type: 'ADD_ITEM'; payload: { coffeeId: string; quantity: number } }
+  | { type: 'INCREMENT_ITEM'; payload: { coffeeId: string } }
+  | { type: 'DECREMENT_ITEM'; payload: { coffeeId: string } }
+  | { type: 'REMOVE_ITEM'; payload: { coffeeId: string } }
+  | { type: 'CLEAR_CART' }
 
 export interface ViaCepResponse {
   cep: string
@@ -171,12 +171,13 @@ interface CartContextValue {
   items: CartItem[]
   itemCount: number           // soma das quantidades (RF-05)
   subtotalInCents: number     // derivado do catálogo (RF-09)
-  totalInCents: number        // subtotal + taxa (RN-02)
+  subtotalFormatted: string   // BRL com 2 casas (RN-01)
+  totalInCents: number        // subtotal + taxa (RN-02) — ainda não implementado
   addCoffee: (coffee: Coffee, quantity: number) => void
-  increment: (coffeeId: string) => void
-  decrement: (coffeeId: string) => void
-  remove: (coffeeId: string) => void
-  clear: () => void
+  incrementItem: (coffeeId: string) => void
+  decrementItem: (coffeeId: string) => void
+  removeItem: (coffeeId: string) => void
+  clearCart: () => void
 }
 ```
 
@@ -184,11 +185,11 @@ Comportamento das ações:
 
 | Ação | Efeito no estado | Regras |
 | --- | --- | --- |
-| `ADD` | Se o `coffeeId` existe, soma `quantity`; senão, cria nova linha. | RN-03, RN-04; ignora quantidade < 1. |
-| `INCREMENT` | `map` incrementando apenas o item alvo. | RN-03. |
-| `DECREMENT` | Se quantidade > 1, decrementa; se == 1, remove com `filter`. | RN-03. |
-| `REMOVE` | `filter` removendo o `coffeeId`. | RF-07. |
-| `CLEAR` | Retorna `{ items: [] }`. | RN-09 (após criar o pedido). |
+| `ADD_ITEM` | Se o `coffeeId` existe, soma `quantity`; senão, cria nova linha. | RN-03, RN-04; ignora quantidade < 1. |
+| `INCREMENT_ITEM` | `map` incrementando apenas o item alvo. | RN-03. |
+| `DECREMENT_ITEM` | Se quantidade > 1, decrementa; se == 1, remove com `filter`. | RN-03. |
+| `REMOVE_ITEM` | `filter` removendo o `coffeeId`. | RF-07. |
+| `CLEAR_CART` | Retorna `{ items: [] }`. | RN-09 (após criar o pedido). |
 
 O preço **não** é duplicado no carrinho: `subtotalInCents` é calculado com `reduce`, cruzando `CartItem[]` com o catálogo em `src/data/coffees.ts`. O preço só é "congelado" no `OrderItem` no momento da finalização (RN-09).
 
