@@ -1,27 +1,40 @@
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Link, Navigate, Route, Routes } from 'react-router-dom'
+import styled from 'styled-components'
+import { Header } from './components/Header'
+import { Home } from './pages/Home'
+
+const PlaceholderMain = styled.main`
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+
+  a {
+    display: inline-block;
+    margin-top: 1rem;
+    color: ${({ theme }) => theme.colors.primary};
+  }
+`
 
 function Placeholder({ title }: { title: string }) {
   return (
-    <main>
+    <PlaceholderMain>
       <h1>{title}</h1>
       <p>Placeholder — a implementação será feita nas próximas etapas.</p>
-    </main>
+      <Link to="/">Voltar à home</Link>
+    </PlaceholderMain>
   )
 }
 
 export default function App() {
   return (
     <BrowserRouter>
-      <nav aria-label="Navegação principal">
-        <Link to="/">Home</Link>
-        <Link to="/checkout">Checkout</Link>
-        <Link to="/success">Sucesso</Link>
-      </nav>
+      <Header />
 
       <Routes>
-        <Route path="/" element={<Placeholder title="Home" />} />
+        <Route path="/" element={<Home />} />
         <Route path="/checkout" element={<Placeholder title="Checkout" />} />
         <Route path="/success" element={<Placeholder title="Pedido confirmado" />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   )
