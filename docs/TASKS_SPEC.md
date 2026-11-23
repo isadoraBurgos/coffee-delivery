@@ -21,6 +21,8 @@
 
 > **Etapa 8 (identidade visual):** logo original gerada com IA, favicon, título e branding documentado materializam **RNF-03**. Como o plano original não previa uma tarefa de branding, ela é registrada como **T-18** e marcada como concluída nesta etapa, sem renumerar as demais.
 
+> **Refinamento de RNF-03 (T-19):** as ilustrações complementares da mascote no Hero da Home e na confirmação `/success` são registradas como uma tarefa separada, preservando o histórico do commit da T-18.
+
 ## 2. Checklist ordenado
 
 - [x] **T-01** — Documentação de referência (concluída, aguardando validação)
@@ -41,6 +43,7 @@
 - [x] **T-16** — Varredura de responsividade e acessibilidade ✅
 - [ ] **T-17** — Verificação final e testes automatizados
 - [x] **T-18** — Identidade visual com IA: logo, favicon e branding ✅ (Etapa 8)
+- [x] **T-19** — Ilustrações complementares da mascote no Hero e na confirmação ✅
 
 ---
 
@@ -208,6 +211,15 @@
 - **Critério de pronto:** logo com 44 px de altura no Header, alinhada aos demais controles e legível nos dois temas; favicon vetorial derivado da marca; `<title>` atualizado; seção de Branding com IA no README; build/lint ok.
 - **Commit sugerido:** `feat: adiciona identidade visual com logo e favicon gerados por ia`
 
+### T-19 — Ilustrações complementares da mascote no Hero e na confirmação
+
+- **Status:** ✅ Concluída (refinamento de RNF-03)
+- **Objetivo:** substituir o hero vetorial da Home pela ilustração da mascote com o copo de café e posicionar a ilustração da motinha na tela de confirmação, com layout responsivo e contraste nos dois temas.
+- **Requisitos relacionados:** RNF-03, RNF-01, RNF-02, RNF-04, RF-01, RF-15.
+- **Arquivos afetados:** `src/assets/dog-coffee-hero.jpg`, `src/assets/dog-moto-delivery.jpg`, `src/pages/Home.tsx`, `src/components/OrderSuccess.tsx`, `README.md`, `docs/{PRD_SPEC,TECH_SPEC,TASKS_SPEC}.md`.
+- **Critério de pronto:** Hero com imagem quadrada recortada e dimensionada progressivamente; `/success` com card e ilustração lado a lado a partir de 768 px e empilhados no mobile; molduras e fundos por tokens semânticos; `alt` descritivo; sem rolagem horizontal em 320/375/768/1280 px; build/lint ok.
+- **Commit sugerido:** `style: adiciona ilustrações da mascote no hero e na confirmação`
+
 ---
 
 ## 4. Matriz de rastreabilidade
@@ -226,8 +238,8 @@
 | RN-06, RN-07, RN-08 | T-10, T-11, T-12, T-13 |
 | RN-10 | T-02, T-04, T-06, T-15 |
 | RNF-01, RNF-02 | T-02, T-16 |
-| RNF-03 | T-18 |
+| RNF-03 | T-18, T-19 |
 
 ## 5. Pronto para começar
 
-As tarefas **T-01 a T-16** e **T-18** estão concluídas e validadas nas etapas anteriores. A próxima ação pendente é a **T-17 — Verificação final e testes automatizados**, a ser executada somente após a validação desta Etapa 8.
+As tarefas **T-01 a T-16**, **T-18** e **T-19** estão concluídas e validadas nas etapas anteriores. A próxima ação pendente é a **T-17 — Verificação final e testes automatizados**, a ser executada somente após a validação deste refinamento visual.

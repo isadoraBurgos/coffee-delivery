@@ -59,7 +59,7 @@ A aplicação segue uma arquitetura em camadas, com fronteiras explícitas:
 
 ```text
 src/
-├── assets/        # logo original (logo.jpg), ilustrações dos cafés e do hero
+├── assets/        # logo original, ilustrações dos cafés e da mascote (hero/sucesso)
 ├── components/    # CoffeeCard, Header, ThemeToggle, DeliveryAddressForm, ...
 ├── pages/         # Home, Checkout, Success — uma página por rota
 ├── contexts/      # CartContext, OrderContext, ThemeContext + providers
@@ -284,7 +284,8 @@ const checkoutSchema = z.object({
 - **Logo original:** `src/assets/logo.jpg` (1024×1024), gerada com Gemini/Imagen. Substitui o marca provisória em `Header`, renderizada a 44 px de altura com `object-fit: contain`, borda circular e fundo de superfície vindos dos tokens, para preservar o contorno roxo também no tema escuro.
 - **Favicon:** `public/favicon.svg`, versão vetorial simplificada (círculo roxo, xícara creme e vapor dourado) derivada do conceito da mascote; reference mantida em `index.html`.
 - **Título da página:** `Coffee Delivery - Fast & Fresh Coffee` em `index.html`.
-- **Branding:** ferramenta, conceito, paleta, justificativa e comportamento claro/escuro documentados no `README.md`. Nenhuma biblioteca nova é adicionada; a imagem é asset local importado pelo Vite (tipagem via `src/vite-env.d.ts`).
+- **Branding:** ferramenta, conceito, paleta, justificativa e comportamento claro/escuro documentados no `README.md`. Nenhuma biblioteca nova é adicionada; as imagens são assets locais importados pelo Vite (tipagem via `src/vite-env.d.ts`).
+- **Ilustrações complementares (T-19):** `src/assets/dog-coffee-hero.jpg` substitui o hero SVG em `Home` (quadrado 1024×1024, crop circular, largura progressiva de ~12 rem no mobile a ~17 rem no desktop); `src/assets/dog-moto-delivery.jpg` é exibido ao lado do card em `OrderSuccess` (lado a lado a partir de `md`, empilhado abaixo do resumo no mobile). Ambas usam moldura, fundo e borda derivados dos tokens, com `alt` descritivo e `aspect-ratio: 1` para evitar deslocamento de layout.
 
 ## 11. Formatação monetária
 
@@ -312,7 +313,7 @@ const checkoutSchema = z.object({
 | RF-14 | `src/components/PaymentMethodSelector.tsx`, `src/data/constants.ts` |
 | RF-15 | `src/types/order.ts`, `src/contexts/OrderContext.tsx`, `src/pages/Checkout.tsx`, `src/components/OrderSuccess.tsx`, `src/pages/Success.tsx` |
 | RF-16 | `src/contexts/ThemeContext.tsx`, `src/hooks/useTheme.ts`, `src/components/ThemeToggle.tsx`, `src/styles/themes/`, `src/styles/GlobalStyle.ts`, `src/data/constants.ts` |
-| RNF-03 | `src/assets/logo.jpg`, `src/components/Header.tsx`, `public/favicon.svg`, `index.html`, `README.md`, `src/vite-env.d.ts` |
+| RNF-03 | `src/assets/logo.jpg`, `src/assets/dog-coffee-hero.jpg`, `src/assets/dog-moto-delivery.jpg`, `src/components/Header.tsx`, `src/pages/Home.tsx`, `src/components/OrderSuccess.tsx`, `public/favicon.svg`, `index.html`, `README.md`, `src/vite-env.d.ts` |
 | RN-01/02 | `src/utils/currency.ts`, `src/data/constants.ts` |
 | RN-03/04/05/09 | `src/reducers/cartReducer.ts`, `src/contexts/OrderContext.tsx` |
 | RN-06/07/08 | `src/schemas/checkoutSchema.ts`, `src/hooks/useCepLookup.ts` |

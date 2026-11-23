@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import heroImage from '../assets/hero-coffee.svg'
+import heroImage from '../assets/dog-coffee-hero.jpg'
 import { CoffeeCard } from '../components/CoffeeCard'
 import { coffees } from '../data/coffees'
 
@@ -51,8 +51,26 @@ const HeroText = styled.p`
 `
 
 const HeroImage = styled.img`
-  width: min(100%, 220px);
+  display: block;
+  flex: 0 1 12rem;
+  width: min(100%, 12rem);
+  aspect-ratio: 1;
   margin-inline: auto;
+  border: 2px solid ${({ theme }) => theme.colors.surface};
+  border-radius: 50%;
+  background: ${({ theme }) => theme.colors.surface};
+  box-shadow: 0 0 0 1px ${({ theme }) => theme.colors.border};
+  object-fit: cover;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    flex-basis: 15rem;
+    width: min(100%, 15rem);
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+    flex-basis: 17rem;
+    width: min(100%, 17rem);
+  }
 `
 
 const SectionTitle = styled.h2`
@@ -87,7 +105,10 @@ export function Home() {
             pagamento simulados.
           </HeroText>
         </HeroContent>
-        <HeroImage src={heroImage} alt="" aria-hidden="true" />
+        <HeroImage
+          src={heroImage}
+          alt="Filhote entregador do Coffee Delivery abraçando uma xícara de café fumegante"
+        />
       </Hero>
 
       <SectionTitle>Nossos cafés</SectionTitle>

@@ -4,13 +4,22 @@ SPA de cafeteria com catálogo, carrinho persistido, checkout com ViaCEP, pagame
 
 ## Branding com IA
 
-A identidade visual da marca foi criada com **Gemini / Imagen IA** e integrada à aplicação na Etapa 8.
+A identidade visual da marca foi criada com **Gemini / Imagen IA** na Etapa 8 e refinada com ilustrações complementares da mascote na sequência.
 
 - **Ferramenta:** Gemini (Imagen) para geração da arte; o favicon é uma adaptação vetorial feita à mão a partir do mesmo conceito, e nenhuma biblioteca externa foi adicionada.
 - **Conceito:** um filhote amigável, com boné e bandana de entregador, aparecendo dentro de uma xícara de café fumegante. A imagem transmite a ideia de um pedido que chega "quentinho" e com carinho.
 - **Arte:** `src/assets/logo.jpg` (1024×1024), exibida no `Header` com 44 px de altura, `object-fit: contain`, borda circular e fundo de superfície vindos dos tokens do tema.
 - **Favicon:** `public/favicon.svg`, versão simplificada da mascote (círculo roxo, xícara creme e vapor dourado), referenciado em `index.html`.
 - **Título da página:** `Coffee Delivery - Fast & Fresh Coffee`.
+
+### Ilustrações complementares
+
+Além da logo, duas artes da mesma mascote reforçam a identidade nas telas principais:
+
+- `src/assets/dog-coffee-hero.jpg` — o filhote abraçando o copo de café fumegante, exibido no **Hero da Home** (`src/pages/Home.tsx`). Substitui a ilustração vetorial anterior e aparece com recorte circular, largura progressiva e `alt` descritivo.
+- `src/assets/dog-moto-delivery.jpg` — o filhote na motinha de entrega, exibido na **confirmação do pedido** (`src/components/OrderSuccess.tsx`). Fica ao lado do card de resumo no desktop e empilhado abaixo dele no mobile.
+
+As duas ilustrações usam moldura, fundo e borda baseados nos tokens de tema (sem cores literais), mantêm `aspect-ratio: 1` para não deslocar o layout e têm texto alternativo que descreve a cena para leitores de tela.
 
 ### Paleta
 

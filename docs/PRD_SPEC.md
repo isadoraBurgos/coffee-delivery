@@ -14,6 +14,8 @@
 
 > **Nota de mapeamento (Etapa 8):** identidade visual original (logo gerada com IA, favicon, título da página e documentação de branding) materializa **RNF-03**, sem introduzir novos requisitos funcionais. A tarefa correspondente é **T-18** no `TASKS_SPEC.md`.
 
+> **Nota de refinamento visual (RNF-03):** as ilustrações complementares da mascote — `dog-coffee-hero.jpg` na Home e `dog-moto-delivery.jpg` em `/success` — ampliam a identidade já aprovada sem alterar requisitos funcionais. O refinamento é registrado como **T-19**.
+
 ---
 
 ## 1. Visão geral
@@ -280,7 +282,7 @@ Cada requisito traz critérios **verificáveis** (observáveis em execução ou 
 | --- | --- |
 | RNF-01 | **Responsividade mobile-first**, testável em 320 px, 375 px, 768 px e 1280 px+, sem rolagem horizontal involuntária. |
 | RNF-02 | **Acessibilidade WCAG 2.2 AA:** labels associados, navegação por teclado, foco visível, contraste adequado e mensagens de erro claras. |
-| RNF-03 | **Identidade visual:** logo original da marca gerada com IA (Gemini/Imagen), favicon derivado, título `Coffee Delivery - Fast & Fresh Coffee` e tipografias Baloo 2 (títulos) e Roboto (texto corrido). |
+| RNF-03 | **Identidade visual:** logo original da marca gerada com IA (Gemini/Imagen), ilustrações complementares da mascote no Hero da Home e na confirmação, favicon derivado, título `Coffee Delivery - Fast & Fresh Coffee` e tipografias Baloo 2 (títulos) e Roboto (texto corrido). |
 | RNF-04 | **Tema por tokens semânticos:** nenhum elemento pode usar cor fixa que deixe de funcionar em light/dark. Tokens canônicos em `src/styles/themes/`. |
 | RNF-05 | **Idioma:** conteúdo em português do Brasil (`pt-BR`). |
 | RNF-06 | **Qualidade:** TypeScript em modo estrito, sem `any`, com imutabilidade no reducer e nos hooks. |

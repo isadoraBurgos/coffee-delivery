@@ -1,12 +1,13 @@
 import { Clock, CreditCard, MapPin } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import mascotDeliveryImage from '../assets/dog-moto-delivery.jpg'
 import { PAYMENT_OPTIONS } from '../data/constants'
 import type { Order } from '../types/order'
 import { formatBRL } from '../utils/currency'
 
 const Page = styled.main`
-  max-width: 720px;
+  max-width: 960px;
   min-width: 0;
   margin: 0 auto;
   padding: 1.25rem 1rem 3rem;
@@ -30,6 +31,47 @@ const Heading = styled.header`
   p {
     margin-top: 0.35rem;
     color: ${({ theme }) => theme.colors.textSubtitle};
+  }
+`
+
+const Content = styled.div`
+  display: grid;
+  gap: 1.25rem;
+  align-items: center;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+  }
+`
+
+const MascotPanel = styled.aside`
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: 12px;
+  background: linear-gradient(
+    135deg,
+    ${({ theme }) => theme.colors.surface},
+    ${({ theme }) => theme.colors.surfaceAlt}
+  );
+`
+
+const MascotImage = styled.img`
+  display: block;
+  width: min(100%, 14rem);
+  aspect-ratio: 1;
+  border: 3px solid ${({ theme }) => theme.colors.surface};
+  border-radius: 50%;
+  background: ${({ theme }) => theme.colors.surface};
+  box-shadow: 0 0 0 1px ${({ theme }) => theme.colors.border};
+  object-fit: cover;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    width: min(100%, 18rem);
   }
 `
 
@@ -216,70 +258,79 @@ export function OrderSuccess({ order }: OrderSuccessProps) {
         <p>Seu pedido foi recebido e já está sendo preparado.</p>
       </Heading>
 
-      <GradientBorder>
-        <Card aria-label="Resumo do pedido confirmado">
-          <InfoGrid>
-            <InfoItem>
-              <MapPin size={20} aria-hidden="true" />
-              <div>
-                <InfoLabel>Entrega em</InfoLabel>
-                <span>{order.address.street}, {order.address.number}</span>
-                {order.address.complement && <span>{order.address.complement}</span>}
+      <Content>
+        <GradientBorder>
+          <Card aria-label="Resumo do pedido confirmado">
+            <InfoGrid>
+              <InfoItem>
+                <MapPin size={20} aria-hidden="true" />
+                <div>
+                  <InfoLabel>Entrega em</InfoLabel>
+                  <span>{order.address.street}, {order.address.number}</span>
+                  {order.address.complement && <span>{order.address.complement}</span>}
+                  <span>
+                    {order.address.neighborhood} - {order.address.city}, {order.address.state}
+                  </span>
+                </div>
+              </InfoItem>
+
+              <InfoItem>
+                <Clock size={20} aria-hidden="true" />
+                <div>
+                  <InfoLabel>Previsão de entrega</InfoLabel>
+                  <span>20 min - 30 min</span>
+                </div>
+              </InfoItem>
+
+              <InfoItem>
+                <CreditCard size={20} aria-hidden="true" />
+                <div>
+                  <InfoLabel>Pagamento</InfoLabel>
+                  <span>{paymentLabel}</span>
+                </div>
+              </InfoItem>
+            </InfoGrid>
+
+            <Divider />
+
+            <ItemsTitle>Itens do pedido</ItemsTitle>
+            {order.items.map((item) => (
+              <ItemLine key={item.coffeeId}>
                 <span>
-                  {order.address.neighborhood} - {order.address.city}, {order.address.state}
+                  {item.quantity}× {item.name}
                 </span>
-              </div>
-            </InfoItem>
+                <strong>{formatBRL(item.unitPriceInCents * item.quantity)}</strong>
+              </ItemLine>
+            ))}
 
-            <InfoItem>
-              <Clock size={20} aria-hidden="true" />
+            <Totals>
               <div>
-                <InfoLabel>Previsão de entrega</InfoLabel>
-                <span>20 min - 30 min</span>
+                <dt>Subtotal</dt>
+                <dd>{formatBRL(order.subtotalInCents)}</dd>
               </div>
-            </InfoItem>
-
-            <InfoItem>
-              <CreditCard size={20} aria-hidden="true" />
               <div>
-                <InfoLabel>Pagamento</InfoLabel>
-                <span>{paymentLabel}</span>
+                <dt>Taxa de entrega</dt>
+                <dd>{formatBRL(order.deliveryFeeInCents)}</dd>
               </div>
-            </InfoItem>
-          </InfoGrid>
+              <div>
+                <dt>Total</dt>
+                <dd>{formatBRL(order.totalInCents)}</dd>
+              </div>
+            </Totals>
 
-          <Divider />
+            <Meta>
+              Pedido #{order.id.slice(0, 8).toUpperCase()} · {placedAt}
+            </Meta>
+          </Card>
+        </GradientBorder>
 
-          <ItemsTitle>Itens do pedido</ItemsTitle>
-          {order.items.map((item) => (
-            <ItemLine key={item.coffeeId}>
-              <span>
-                {item.quantity}× {item.name}
-              </span>
-              <strong>{formatBRL(item.unitPriceInCents * item.quantity)}</strong>
-            </ItemLine>
-          ))}
-
-          <Totals>
-            <div>
-              <dt>Subtotal</dt>
-              <dd>{formatBRL(order.subtotalInCents)}</dd>
-            </div>
-            <div>
-              <dt>Taxa de entrega</dt>
-              <dd>{formatBRL(order.deliveryFeeInCents)}</dd>
-            </div>
-            <div>
-              <dt>Total</dt>
-              <dd>{formatBRL(order.totalInCents)}</dd>
-            </div>
-          </Totals>
-
-          <Meta>
-            Pedido #{order.id.slice(0, 8).toUpperCase()} · {placedAt}
-          </Meta>
-        </Card>
-      </GradientBorder>
+        <MascotPanel>
+          <MascotImage
+            src={mascotDeliveryImage}
+            alt="Filhote entregador do Coffee Delivery pilotando a motinha de entrega"
+          />
+        </MascotPanel>
+      </Content>
 
       <HomeLink to="/">Voltar para a Home</HomeLink>
     </Page>
