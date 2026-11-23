@@ -1,3 +1,6 @@
+// @refresh reset
+// O context é exportado junto com o provider (exigência da spec), o que o Fast Refresh
+// não consegue preservar. Forçar reload completo evita HMR inválido/estado congelado.
 import { createContext, useMemo, useReducer, type ReactNode } from 'react'
 import { coffees } from '../data/coffees'
 import { cartReducer, initialCartState } from '../reducers/cartReducer'

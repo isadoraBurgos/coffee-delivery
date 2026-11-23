@@ -78,13 +78,8 @@ const AddButton = styled.button`
   font-weight: 700;
   cursor: pointer;
 
-  &:hover:not(:disabled) {
+  &:hover {
     background: ${({ theme }) => theme.colors.primaryHover};
-  }
-
-  &:disabled {
-    opacity: 0.55;
-    cursor: not-allowed;
   }
 `
 
@@ -94,7 +89,8 @@ interface CoffeeCardProps {
 
 export function CoffeeCard({ coffee }: CoffeeCardProps) {
   const [quantity, setQuantity] = useState(1)
-  const { addCoffee } = useCart()
+  // Alias local: a API do contexto chama addCoffee; aqui usamos addItem por clareza.
+  const { addCoffee: addItem } = useCart()
 
   return (
     <Card>
@@ -120,7 +116,7 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
 
       <AddButton
         type="button"
-        onClick={() => addCoffee(coffee, quantity)}
+        onClick={() => addItem(coffee, quantity)}
         aria-label={`Adicionar ${quantity} ${coffee.name} ao carrinho`}
       >
         <ShoppingCart size={15} aria-hidden="true" />
