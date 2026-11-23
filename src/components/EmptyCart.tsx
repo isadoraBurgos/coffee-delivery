@@ -6,13 +6,19 @@ const Panel = styled.section`
   display: grid;
   justify-items: center;
   gap: 0.75rem;
-  margin: 2rem auto;
-  padding: 2.5rem 1rem;
+  margin: 1.5rem auto;
+  padding: 1.75rem 1rem;
   max-width: 32rem;
+  min-width: 0;
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 12px;
-  background: ${({ theme }) => theme.colors.surface};
+  background: ${({ theme }) => theme.colors.card};
   text-align: center;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    margin: 2rem auto;
+    padding: 2.5rem 1rem;
+  }
 `
 
 const IconWrapper = styled.span`
@@ -21,8 +27,8 @@ const IconWrapper = styled.span`
   width: 4rem;
   height: 4rem;
   border-radius: 50%;
-  background: ${({ theme }) => theme.colors.accent};
-  color: ${({ theme }) => theme.colors.onAccent};
+  background: ${({ theme }) => theme.colors.brandYellow};
+  color: ${({ theme }) => theme.colors.onBrandYellow};
 `
 
 const Title = styled.h2`
@@ -30,24 +36,33 @@ const Title = styled.h2`
 `
 
 const Text = styled.p`
-  color: ${({ theme }) => theme.colors.textMuted};
+  color: ${({ theme }) => theme.colors.textSubtitle};
   line-height: 1.5;
 `
 
 const BackLink = styled(Link)`
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.4rem;
+  min-height: 2.75rem;
   margin-top: 0.5rem;
   padding: 0.6rem 1rem;
+  border: 1px solid ${({ theme }) => theme.colors.brandPurple};
   border-radius: 6px;
-  background: ${({ theme }) => theme.colors.primary};
-  color: ${({ theme }) => theme.colors.onPrimary};
+  background: ${({ theme }) => theme.colors.brandPurple};
+  color: ${({ theme }) => theme.colors.onBrandPurple};
   font-weight: 700;
   text-decoration: none;
 
   &:hover {
-    background: ${({ theme }) => theme.colors.primaryHover};
+    border-color: ${({ theme }) => theme.colors.brandPurpleHover};
+    background: ${({ theme }) => theme.colors.brandPurpleHover};
+  }
+
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focusRing};
+    outline-offset: 2px;
   }
 `
 

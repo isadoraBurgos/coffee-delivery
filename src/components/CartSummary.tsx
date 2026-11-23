@@ -2,11 +2,13 @@ import styled from 'styled-components'
 import { useCart } from '../hooks/useCart'
 
 const Panel = styled.section`
+  min-width: 0;
   margin-top: 1rem;
   padding: 1rem;
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 8px;
   background: ${({ theme }) => theme.colors.surfaceAlt};
+  color: ${({ theme }) => theme.colors.textTitle};
 `
 
 const Title = styled.h3`
@@ -27,7 +29,7 @@ const Line = styled.div`
   gap: 1rem;
 
   dt {
-    color: ${({ theme }) => theme.colors.textMuted};
+    color: ${({ theme }) => theme.colors.textSubtitle};
   }
 
   dd {
@@ -42,13 +44,13 @@ const TotalLine = styled(Line)`
   border-top: 1px solid ${({ theme }) => theme.colors.border};
 
   dt {
-    color: ${({ theme }) => theme.colors.text};
+    color: ${({ theme }) => theme.colors.textTitle};
     font-family: ${({ theme }) => theme.fonts.heading};
     font-size: 1.125rem;
   }
 
   dd {
-    color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.brandPurple};
     font-size: 1.25rem;
   }
 `

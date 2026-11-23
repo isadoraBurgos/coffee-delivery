@@ -11,16 +11,19 @@ const Card = styled.article`
   flex-direction: column;
   align-items: center;
   gap: 0.75rem;
-  padding: 1.25rem 1rem 1rem;
+  min-width: 0;
+  height: 100%;
+  padding: 1rem;
   border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: 8px;
-  background: ${({ theme }) => theme.colors.surface};
+  border-radius: 10px;
+  background: ${({ theme }) => theme.colors.card};
   text-align: center;
 `
 
 const Image = styled.img`
   width: min(100%, 176px);
   height: auto;
+  flex-shrink: 0;
 `
 
 const Tags = styled.div`
@@ -31,24 +34,24 @@ const Tags = styled.div`
 `
 
 const Tag = styled.span`
-  padding: 0.15rem 0.5rem;
+  padding: 0.25rem 0.5rem;
   border-radius: 999px;
-  background: ${({ theme }) => theme.colors.accent};
-  color: ${({ theme }) => theme.colors.onAccent};
-  font-size: 0.7rem;
+  background: ${({ theme }) => theme.colors.brandYellow};
+  color: ${({ theme }) => theme.colors.onBrandYellow};
+  font-size: 0.75rem;
   font-weight: 700;
 `
 
 const Name = styled.h3`
   font-size: 1.125rem;
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({ theme }) => theme.colors.textTitle};
 `
 
 const Description = styled.p`
   flex: 1;
   font-size: 0.875rem;
-  line-height: 1.4;
-  color: ${({ theme }) => theme.colors.textMuted};
+  line-height: 1.5;
+  color: ${({ theme }) => theme.colors.textSubtitle};
 `
 
 const Footer = styled.div`
@@ -58,28 +61,39 @@ const Footer = styled.div`
   justify-content: space-between;
   gap: 0.5rem;
   width: 100%;
+  min-width: 0;
 `
 
 const Price = styled.strong`
+  min-width: 0;
   font-size: 1.125rem;
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({ theme }) => theme.colors.textTitle};
 `
 
 const AddButton = styled.button`
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.35rem;
-  padding: 0.4rem 0.6rem;
-  border: 0;
-  border-radius: 6px;
-  background: ${({ theme }) => theme.colors.primary};
-  color: ${({ theme }) => theme.colors.onPrimary};
+  width: 100%;
+  min-height: 2.75rem;
+  margin-top: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid ${({ theme }) => theme.colors.brandPurple};
+  border-radius: 8px;
+  background: ${({ theme }) => theme.colors.brandPurple};
+  color: ${({ theme }) => theme.colors.onBrandPurple};
   font-size: 0.875rem;
   font-weight: 700;
   cursor: pointer;
 
   &:hover {
-    background: ${({ theme }) => theme.colors.primaryHover};
+    border-color: ${({ theme }) => theme.colors.brandPurpleHover};
+    background: ${({ theme }) => theme.colors.brandPurpleHover};
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    width: auto;
   }
 `
 
@@ -119,7 +133,7 @@ export function CoffeeCard({ coffee }: CoffeeCardProps) {
         onClick={() => addItem(coffee, quantity)}
         aria-label={`Adicionar ${quantity} ${coffee.name} ao carrinho`}
       >
-        <ShoppingCart size={15} aria-hidden="true" />
+        <ShoppingCart size={16} aria-hidden="true" />
         Adicionar
       </AddButton>
     </Card>

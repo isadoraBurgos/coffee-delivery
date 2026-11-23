@@ -17,6 +17,8 @@
 
 **Legenda de status:** ⏳ Pendente · 🔄 Em andamento · ✅ Concluída · ⛔ Bloqueada
 
+> **Etapa 7 (mapeamento):** o pedido cita `RF-14`/`RF-15`, mas nesta baseline esses IDs são pagamento e finalização. O escopo de tema/responsividade/acessibilidade corresponde a **RF-16 + RNF-01/RNF-02** e às tarefas **T-02 + T-08 + T-16**, executadas em conjunto para evitar estados intermediários sem tokens.
+
 ## 2. Checklist ordenado
 
 - [x] **T-01** — Documentação de referência (concluída, aguardando validação)
@@ -55,8 +57,8 @@
 - **Status:** ⏳ Pendente
 - **Objetivo:** definir tokens semânticos light/dark, estilos globais, fontes Baloo 2/Roboto e o `ThemeContext` com persistência.
 - **Requisitos relacionados:** RF-16, RN-10, RNF-02, RNF-03, RNF-04.
-- **Arquivos afetados:** `src/styles/theme.ts`, `src/styles/GlobalStyle.ts`, `src/contexts/ThemeContext.tsx`, `src/hooks/useTheme.ts`, `src/main.tsx`, `index.html`.
-- **Critério de pronto:** existe um controle de tema funcional; troca afeta todos os elementos; preferência sobrevive ao reload; primeira visita respeita `prefers-color-scheme`; build/lint ok.
+- **Arquivos afetados:** `src/styles/themes/{light,dark,index}.ts`, `src/styles/GlobalStyle.ts`, `src/contexts/ThemeContext.tsx`, `src/hooks/useTheme.ts`, `src/data/constants.ts`, `src/main.tsx`.
+- **Critério de pronto:** tokens semânticos claros/escuros com contraste AA; chave `@coffee-delivery:theme-1.0.0`; fallback `prefers-color-scheme`; troca imediata e persistida; build/lint ok.
 - **Commit sugerido:** `feat: adiciona tema claro e escuro com persistência`
 
 ### T-03 — Tipagens do domínio e catálogo local
@@ -109,8 +111,8 @@
 - **Status:** ⏳ Pendente
 - **Objetivo:** criar o cabeçalho com navegação, badge do carrinho e controle de tema acessível.
 - **Requisitos relacionados:** RF-05, RF-10, RF-16.
-- **Arquivos afetados:** `src/components/Header.tsx`, `src/components/ThemeToggle.tsx`, `src/App.tsx`.
-- **Critério de pronto:** badge reflete a soma das quantidades; links levam a `/` e `/checkout`; alternador funciona por teclado e tem nome acessível; build/lint ok.
+- **Arquivos afetados:** `src/components/Header.tsx`, `src/components/ThemeToggle.tsx`, `src/contexts/ThemeContext.tsx`, `src/hooks/useTheme.ts`, `src/App.tsx`.
+- **Critério de pronto:** badge reflete a soma das quantidades; links levam a `/` e `/checkout`; `ThemeToggle` tem `aria-label`, `title` dinâmico, `aria-pressed`, foco visível e alvo ≥ 44 px; build/lint ok.
 - **Commit sugerido:** `feat: adiciona cabeçalho com carrinho e alternador de tema`
 
 ### T-09 — Checkout: itens e resumo financeiro
@@ -181,8 +183,8 @@
 - **Status:** ⏳ Pendente
 - **Objetivo:** revisar toda a interface nos breakpoints e verificar navegação por teclado/contraste.
 - **Requisitos relacionados:** RNF-01, RNF-02, RF-16.
-- **Arquivos afetados:** `src/styles/GlobalStyle.ts`, `src/styles/theme.ts` e componentes/páginas conforme necessário.
-- **Critério de pronto:** sem rolagem horizontal em 320, 375, 768 e 1280 px; foco visível em todos os controles; labels e mensagens de erro legíveis; contraste AA nos dois temas; build/lint ok.
+- **Arquivos afetados:** `src/styles/GlobalStyle.ts`, `src/styles/themes/`, `Home`, `CoffeeCard`, `QuantityInput`, `Checkout`, `DeliveryAddressForm`, `PaymentMethodSelector`, `CartItem`, `CartSummary`, `EmptyCart`, `OrderSuccess`, `Success`.
+- **Critério de pronto:** grid de cafés 1/2/3 colunas em 320-375/768/1280 px; checkout empilhado no mobile; sem rolagem horizontal; alvos ≥ 44 px; foco visível; labels e erros legíveis; contraste AA nos dois temas; build/lint ok.
 - **Commit sugerido:** `style: ajusta responsividade e acessibilidade da interface`
 
 ### T-17 — Verificação final e testes automatizados

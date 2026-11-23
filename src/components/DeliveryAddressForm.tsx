@@ -6,15 +6,25 @@ import type { CheckoutFormData } from '../schemas/checkoutSchema'
 import type { DeliveryAddress } from '../types/address'
 
 const Panel = styled.section`
-  padding: 1.25rem;
+  min-width: 0;
+  padding: 1rem;
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 12px;
-  background: ${({ theme }) => theme.colors.surface};
+  background: ${({ theme }) => theme.colors.card};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    padding: 1.25rem;
+  }
 `
 
 const Title = styled.h2`
   margin-bottom: 1rem;
-  font-size: 1.375rem;
+  font-size: 1.25rem;
+  color: ${({ theme }) => theme.colors.textTitle};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    font-size: 1.375rem;
+  }
 `
 
 const Grid = styled.div`
@@ -36,30 +46,46 @@ const FieldWrapper = styled.div`
 const Label = styled.label`
   font-size: 0.875rem;
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.textMuted};
+  color: ${({ theme }) => theme.colors.textLabel};
 `
 
 const Input = styled.input`
   width: 100%;
+  min-width: 0;
+  min-height: 2.75rem;
   padding: 0.6rem 0.7rem;
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  border: 1px solid ${({ theme }) => theme.colors.borderStrong};
   border-radius: 6px;
-  background: ${({ theme }) => theme.colors.surface};
-  color: ${({ theme }) => theme.colors.text};
+  background: ${({ theme }) => theme.colors.input};
+  color: ${({ theme }) => theme.colors.textTitle};
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.brandPurple};
+  }
+
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focusRing};
+    outline-offset: 1px;
+  }
 
   &[aria-invalid='true'] {
-    border-color: ${({ theme }) => theme.colors.error};
+    border-color: ${({ theme }) => theme.colors.feedbackError};
+    background: ${({ theme }) => theme.colors.feedbackErrorSubtle};
   }
 `
 
 const ErrorText = styled.span`
-  color: ${({ theme }) => theme.colors.error};
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  background: ${({ theme }) => theme.colors.feedbackErrorSubtle};
+  color: ${({ theme }) => theme.colors.feedbackError};
   font-size: 0.8125rem;
 `
 
 const StatusText = styled.p`
   min-height: 1.1rem;
-  color: ${({ theme }) => theme.colors.textMuted};
+  margin-top: 0.75rem;
+  color: ${({ theme }) => theme.colors.textSubtitle};
   font-size: 0.8125rem;
 `
 

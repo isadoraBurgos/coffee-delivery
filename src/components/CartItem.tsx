@@ -10,6 +10,7 @@ const Row = styled.div`
   flex-wrap: wrap;
   align-items: center;
   gap: 0.75rem;
+  min-width: 0;
   padding: 0.75rem 0;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
 
@@ -19,8 +20,9 @@ const Row = styled.div`
 `
 
 const Image = styled.img`
-  width: 64px;
-  height: 64px;
+  width: 3.5rem;
+  height: 3.5rem;
+  flex-shrink: 0;
   object-fit: contain;
   border-radius: 8px;
   background: ${({ theme }) => theme.colors.surfaceAlt};
@@ -35,13 +37,15 @@ const Name = styled.strong`
   display: block;
   font-family: ${({ theme }) => theme.fonts.heading};
   font-size: 1rem;
+  color: ${({ theme }) => theme.colors.textTitle};
+  overflow-wrap: anywhere;
 `
 
 const UnitPrice = styled.span`
   display: block;
   margin: 0.15rem 0 0.5rem;
   font-size: 0.75rem;
-  color: ${({ theme }) => theme.colors.textMuted};
+  color: ${({ theme }) => theme.colors.textSubtitle};
 `
 
 const Controls = styled.div`
@@ -53,17 +57,23 @@ const Controls = styled.div`
 const StepButton = styled.button`
   display: grid;
   place-items: center;
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 2.75rem;
+  height: 2.75rem;
   padding: 0;
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  border: 1px solid ${({ theme }) => theme.colors.borderStrong};
   border-radius: 6px;
-  background: ${({ theme }) => theme.colors.surfaceAlt};
-  color: ${({ theme }) => theme.colors.primary};
+  background: ${({ theme }) => theme.colors.input};
+  color: ${({ theme }) => theme.colors.brandPurple};
   cursor: pointer;
 
   &:hover {
-    background: ${({ theme }) => theme.colors.accent};
+    border-color: ${({ theme }) => theme.colors.brandPurple};
+    background: ${({ theme }) => theme.colors.brandPurpleSubtle};
+  }
+
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focusRing};
+    outline-offset: 1px;
   }
 `
 
@@ -71,32 +81,49 @@ const Quantity = styled.span`
   min-width: 1.5rem;
   text-align: center;
   font-weight: 700;
+  color: ${({ theme }) => theme.colors.textTitle};
 `
 
 const Actions = styled.div`
   display: flex;
+  flex: 1 1 100%;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.75rem;
+  justify-content: space-between;
+  gap: 0.5rem;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    flex: 0 0 auto;
+  }
 `
 
 const Subtotal = styled.strong`
   font-size: 1rem;
+  color: ${({ theme }) => theme.colors.textTitle};
 `
 
 const RemoveButton = styled.button`
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: ${({ theme }) => theme.colors.error};
-  font-size: 0.75rem;
+  min-height: 2.75rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: ${({ theme }) => theme.colors.feedbackErrorSubtle};
+  color: ${({ theme }) => theme.colors.feedbackError};
+  font-size: 0.8125rem;
   font-weight: 700;
   cursor: pointer;
 
   &:hover {
+    border-color: ${({ theme }) => theme.colors.feedbackError};
     text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focusRing};
+    outline-offset: 1px;
   }
 `
 

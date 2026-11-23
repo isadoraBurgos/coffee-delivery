@@ -13,32 +13,46 @@ const Legend = styled.legend`
   margin-bottom: 0.75rem;
   font-family: ${({ theme }) => theme.fonts.heading};
   font-size: 1.25rem;
+  color: ${({ theme }) => theme.colors.textTitle};
 `
 
 const Options = styled.div`
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   gap: 0.5rem;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    flex-direction: row;
+  }
 `
 
 const Option = styled.label`
   display: inline-flex;
   align-items: center;
+  min-height: 2.75rem;
   gap: 0.4rem;
   padding: 0.6rem 0.8rem;
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  border: 1px solid ${({ theme }) => theme.colors.borderStrong};
   border-radius: 8px;
-  background: ${({ theme }) => theme.colors.surface};
-  color: ${({ theme }) => theme.colors.text};
+  background: ${({ theme }) => theme.colors.input};
+  color: ${({ theme }) => theme.colors.textTitle};
   cursor: pointer;
 
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.brandPurple};
+    background: ${({ theme }) => theme.colors.brandPurpleSubtle};
+  }
+
   &:has(input:checked) {
-    border-color: ${({ theme }) => theme.colors.primary};
-    background: ${({ theme }) => theme.colors.accent};
+    border-color: ${({ theme }) => theme.colors.brandPurple};
+    background: ${({ theme }) => theme.colors.brandPurpleSubtle};
+    color: ${({ theme }) => theme.colors.textTitle};
+    font-weight: 700;
   }
 
   &:has(input:focus-visible) {
-    outline: 2px solid ${({ theme }) => theme.colors.focus};
+    outline: 3px solid ${({ theme }) => theme.colors.focusRing};
     outline-offset: 2px;
   }
 `
@@ -53,7 +67,10 @@ const HiddenInput = styled.input`
 const ErrorText = styled.span`
   display: block;
   margin-top: 0.4rem;
-  color: ${({ theme }) => theme.colors.error};
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  background: ${({ theme }) => theme.colors.feedbackErrorSubtle};
+  color: ${({ theme }) => theme.colors.feedbackError};
   font-size: 0.875rem;
 `
 

@@ -60,17 +60,19 @@ A aplicação segue uma arquitetura em camadas, com fronteiras explícitas:
 ```text
 src/
 ├── assets/        # imagens, logo original e ícones locais (atualmente vazia)
-├── components/    # componentes reutilizáveis (CoffeeCard, Header, DeliveryAddressForm, ...)
+├── components/    # CoffeeCard, Header, ThemeToggle, DeliveryAddressForm, ...
 ├── pages/         # Home, Checkout, Success — uma página por rota
 ├── contexts/      # CartContext, OrderContext, ThemeContext + providers
 ├── reducers/      # cartReducer (puro) e seus tipos de ação
-├── hooks/         # useCart, useTheme, useCepLookup e outros hooks customizados
+├── hooks/         # useCart, useOrder, useTheme, useCepLookup
 ├── services/      # integrações externas (cliente ViaCEP)
 ├── data/          # catálogo local de cafés e constantes de negócio (taxa de entrega)
 ├── types/         # interfaces e types do domínio (Coffee, CartItem, Order, ...)
 ├── schemas/       # schemas zod (checkout, persistência do carrinho)
 ├── utils/         # formatação monetária, storage seguro, cliente ViaCEP
-├── styles/        # tokens de tema, GlobalStyle e definições de breakpoints
+├── styles/
+│   ├── themes/    # tokens semânticos light/dark + tipagem do DefaultTheme
+│   └── GlobalStyle.ts
 ├── tests/         # testes unitários (quando introduzidos na T-17)
 ├── App.tsx        # somente rotas e composição de providers
 ├── index.css      # reset mínimo global
@@ -204,17 +206,18 @@ O preço **não** é duplicado no carrinho: `subtotalInCents` é calculado com `
 
 ### 5.3 Tema (`ThemeContext`)
 
-- Estado: `ThemeMode`, com `toggleTheme()`.
-- Inicialização: valor salvo → senão `prefers-color-scheme` → senão `'light'`.
-- Efeito colateral: grava a preferência no storage e define `document.documentElement.dataset.theme`.
-- Exposição: `ThemeProvider` do styled-components com os tokens correspondentes + hook `useTheme()`.
+- Estado: `ThemeMode = 'light' | 'dark'`, com `toggleTheme()`.
+- Inicialização (lazy state, antes da primeira renderização): valor salvo → senão `matchMedia('(prefers-color-scheme: dark)')` → senão `'light'`.
+- Efeito colateral: grava a preferência via `utils/storage.ts` e define `document.documentElement.dataset.theme`.
+- `ThemeProvider` (próprio) encapsula o `ThemeProvider` do styled-components com `lightTheme`/`darkTheme`; `main.tsx` monta apenas o provider da aplicação.
+- `ThemeToggle` no Header usa `useTheme()`: `aria-label` e `title` dinâmicos, `aria-pressed`, ícone Sol/Lua e alvo de toque ≥ 44 px.
 
 ## 6. Persistência
 
 | Dado | Chave | Formato |
 | --- | --- | --- |
 | Carrinho | `@coffee-delivery:cart-state-1.0.0` | `{ items: CartItem[] }` |
-| Tema | `coffee-delivery:theme:v1` | `"light"` ou `"dark"` |
+| Tema | `@coffee-delivery:theme-1.0.0` | `"light"` ou `"dark"` (texto simples) |
 
 Regras de implementação:
 - `src/utils/storage.ts` expõe leitura/escrita com `try/catch` (ambientes com storage bloqueado não quebram a aplicação).
@@ -269,11 +272,12 @@ const checkoutSchema = z.object({
 
 ## 10. Estilização, tema e responsividade
 
-- **Tokens semânticos** em `src/styles/theme.ts`, com um objeto por modo (`light`/`dark`): `background`, `surface`, `text`, `textMuted`, `border`, `primary`, `primaryHover`, `error`, `focus`, etc. Nenhum componente usa cor literal.
-- `src/styles/GlobalStyle.ts` aplica `createGlobalStyle` com `body`, foco visível (`:focus-visible`) e as fontes.
+- **Tokens semânticos** em `src/styles/themes/` (`light.ts`, `dark.ts`, `index.ts`): `background`, `surface`, `card`, `input`, `textTitle`, `textSubtitle`, `textLabel`, `border`, `brandYellow`, `brandPurple`, `feedbackError` e complementares (`surfaceAlt`, `borderStrong`, `brandPurpleHover`, `brandPurpleSubtle`, `brandYellowHover`, `onBrandPurple`, `onBrandYellow`, `feedbackErrorSubtle`, `focusRing`). Nenhum componente usa cor literal.
+- Contraste verificado: textos ≥ 4,5:1 nos pares usados; bordas de controles interativos ≥ 3:1 via `borderStrong`; foco via `focusRing`.
+- `src/styles/GlobalStyle.ts` aplica `createGlobalStyle` com `body`, foco visível (`:focus-visible`), `min-width: 320px` e `max-width: 100%` para evitar rolagem horizontal.
 - **Tipografias:** Baloo 2 para títulos e Roboto para texto; carregadas via `<link>` no `index.html` (T-02).
-- **Breakpoints mobile-first:** `320px` (base), `375px`, `768px` (tablet), `1280px` (desktop). Layout em grid/flex sem `overflow-x` involuntário.
-- **Acessibilidade:** contraste AA, labels associados, foco visível, ícones decorativos com `aria-hidden`, botões com texto acessível (RNF-02/RF-16).
+- **Breakpoints mobile-first:** `320px` (base), `375px`, `768px` (tablet), `1280px` (desktop). Grid de cafés: 1 coluna no mobile, 2 no tablet, 3 no desktop. Checkout permanece empilhado (endereço/pagamento acima de itens/resumo) até `1280px`.
+- **Acessibilidade:** contraste AA, labels associados, foco visível, ícones decorativos com `aria-hidden`, alvos de toque ≥ 44 px e botões com texto acessível (RNF-02/RF-16).
 
 ## 11. Formatação monetária
 
@@ -300,7 +304,7 @@ const checkoutSchema = z.object({
 | RF-12/13 | `src/schemas/checkoutSchema.ts`, `src/components/DeliveryAddressForm.tsx` |
 | RF-14 | `src/components/PaymentMethodSelector.tsx`, `src/data/constants.ts` |
 | RF-15 | `src/types/order.ts`, `src/contexts/OrderContext.tsx`, `src/pages/Checkout.tsx`, `src/components/OrderSuccess.tsx`, `src/pages/Success.tsx` |
-| RF-16 | `src/contexts/ThemeContext.tsx`, `src/styles/theme.ts`, `src/styles/GlobalStyle.ts` |
+| RF-16 | `src/contexts/ThemeContext.tsx`, `src/hooks/useTheme.ts`, `src/components/ThemeToggle.tsx`, `src/styles/themes/`, `src/styles/GlobalStyle.ts`, `src/data/constants.ts` |
 | RN-01/02 | `src/utils/currency.ts`, `src/data/constants.ts` |
 | RN-03/04/05/09 | `src/reducers/cartReducer.ts`, `src/contexts/OrderContext.tsx` |
 | RN-06/07/08 | `src/schemas/checkoutSchema.ts`, `src/hooks/useCepLookup.ts` |

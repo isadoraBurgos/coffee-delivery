@@ -15,12 +15,17 @@ import type { DeliveryAddress } from '../types/address'
 const Page = styled.main`
   max-width: 1120px;
   margin: 0 auto;
-  padding: 1.5rem 1rem 3rem;
+  padding: 1.25rem 1rem 3rem;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    padding: 1.5rem 1rem 3rem;
+  }
 `
 
 const Title = styled.h1`
   margin-bottom: 1.25rem;
   font-size: clamp(1.5rem, 4vw, 2rem);
+  color: ${({ theme }) => theme.colors.textTitle};
 `
 
 const Layout = styled.div`
@@ -41,29 +46,46 @@ const Column = styled.div`
 `
 
 const ItemsPanel = styled.section`
-  padding: 1.25rem;
+  min-width: 0;
+  padding: 1rem;
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 12px;
-  background: ${({ theme }) => theme.colors.surface};
+  background: ${({ theme }) => theme.colors.card};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    padding: 1.25rem;
+  }
 `
 
 const SectionTitle = styled.h2`
   margin-bottom: 0.5rem;
-  font-size: 1.375rem;
+  font-size: 1.25rem;
+  color: ${({ theme }) => theme.colors.textTitle};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    font-size: 1.375rem;
+  }
 `
 
 const SubmitButton = styled.button`
   width: 100%;
+  min-height: 3rem;
   padding: 0.85rem 1rem;
-  border: 0;
+  border: 1px solid ${({ theme }) => theme.colors.brandPurple};
   border-radius: 8px;
-  background: ${({ theme }) => theme.colors.primary};
-  color: ${({ theme }) => theme.colors.onPrimary};
+  background: ${({ theme }) => theme.colors.brandPurple};
+  color: ${({ theme }) => theme.colors.onBrandPurple};
   font-weight: 700;
   cursor: pointer;
 
   &:hover:not(:disabled) {
-    background: ${({ theme }) => theme.colors.primaryHover};
+    border-color: ${({ theme }) => theme.colors.brandPurpleHover};
+    background: ${({ theme }) => theme.colors.brandPurpleHover};
+  }
+
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focusRing};
+    outline-offset: 2px;
   }
 
   &:disabled {
@@ -73,7 +95,7 @@ const SubmitButton = styled.button`
 `
 
 const Note = styled.p`
-  color: ${({ theme }) => theme.colors.textMuted};
+  color: ${({ theme }) => theme.colors.textSubtitle};
   font-size: 0.8125rem;
   line-height: 1.5;
   text-align: center;

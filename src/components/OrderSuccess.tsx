@@ -7,8 +7,13 @@ import { formatBRL } from '../utils/currency'
 
 const Page = styled.main`
   max-width: 720px;
+  min-width: 0;
   margin: 0 auto;
-  padding: 2rem 1rem 3rem;
+  padding: 1.25rem 1rem 3rem;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: 2rem 1rem 3rem;
+  }
 `
 
 const Heading = styled.header`
@@ -16,7 +21,7 @@ const Heading = styled.header`
   text-align: center;
 
   h1 {
-    color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.brandPurple};
     font-family: ${({ theme }) => theme.fonts.heading};
     font-size: clamp(2rem, 6vw, 2.75rem);
     line-height: 1.15;
@@ -24,7 +29,7 @@ const Heading = styled.header`
 
   p {
     margin-top: 0.35rem;
-    color: ${({ theme }) => theme.colors.textMuted};
+    color: ${({ theme }) => theme.colors.textSubtitle};
   }
 `
 
@@ -33,16 +38,21 @@ const GradientBorder = styled.div`
   border-radius: 12px;
   background: linear-gradient(
     135deg,
-    ${({ theme }) => theme.colors.primary},
-    ${({ theme }) => theme.colors.accentHover} 55%,
-    ${({ theme }) => theme.colors.primaryHover}
+    ${({ theme }) => theme.colors.brandPurple},
+    ${({ theme }) => theme.colors.brandYellowHover} 55%,
+    ${({ theme }) => theme.colors.brandPurpleHover}
   );
 `
 
 const Card = styled.section`
-  padding: 1.5rem;
+  min-width: 0;
+  padding: 1rem;
   border-radius: 11px;
-  background: ${({ theme }) => theme.colors.surface};
+  background: ${({ theme }) => theme.colors.card};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: 1.5rem;
+  }
 `
 
 const InfoGrid = styled.div`
@@ -58,23 +68,29 @@ const InfoItem = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 0.6rem;
-  color: ${({ theme }) => theme.colors.text};
+  min-width: 0;
+  color: ${({ theme }) => theme.colors.textTitle};
   line-height: 1.5;
 
   svg {
     flex-shrink: 0;
     margin-top: 0.15rem;
-    color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.brandPurple};
+  }
+
+  div {
+    min-width: 0;
   }
 
   div span {
     display: block;
+    overflow-wrap: break-word;
   }
 `
 
 const InfoLabel = styled.span`
   display: block;
-  color: ${({ theme }) => theme.colors.textSubtle};
+  color: ${({ theme }) => theme.colors.textLabel};
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -89,17 +105,26 @@ const Divider = styled.hr`
 const ItemsTitle = styled.h2`
   margin-bottom: 0.75rem;
   font-size: 1.125rem;
+  color: ${({ theme }) => theme.colors.textTitle};
 `
 
 const ItemLine = styled.p`
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 0.25rem 1rem;
   margin-bottom: 0.4rem;
-  color: ${({ theme }) => theme.colors.textMuted};
+  min-width: 0;
+  color: ${({ theme }) => theme.colors.textSubtitle};
+
+  span {
+    min-width: 0;
+    overflow-wrap: break-word;
+  }
 
   strong {
-    color: ${({ theme }) => theme.colors.text};
+    color: ${({ theme }) => theme.colors.textTitle};
+    white-space: nowrap;
   }
 `
 
@@ -117,7 +142,7 @@ const Totals = styled.dl`
   }
 
   dt {
-    color: ${({ theme }) => theme.colors.textMuted};
+    color: ${({ theme }) => theme.colors.textSubtitle};
   }
 
   dd {
@@ -126,37 +151,46 @@ const Totals = styled.dl`
   }
 
   div:last-child dt {
-    color: ${({ theme }) => theme.colors.text};
+    color: ${({ theme }) => theme.colors.textTitle};
     font-family: ${({ theme }) => theme.fonts.heading};
     font-size: 1.125rem;
   }
 
   div:last-child dd {
-    color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.brandPurple};
     font-size: 1.25rem;
   }
 `
 
 const Meta = styled.p`
   margin-top: 1rem;
-  color: ${({ theme }) => theme.colors.textSubtle};
+  color: ${({ theme }) => theme.colors.textLabel};
   font-size: 0.75rem;
 `
 
 const HomeLink = styled(Link)`
   display: inline-flex;
+  align-items: center;
   justify-content: center;
   width: 100%;
+  min-height: 3rem;
   margin-top: 1.5rem;
   padding: 0.85rem 1rem;
+  border: 1px solid ${({ theme }) => theme.colors.brandPurple};
   border-radius: 8px;
-  background: ${({ theme }) => theme.colors.primary};
-  color: ${({ theme }) => theme.colors.onPrimary};
+  background: ${({ theme }) => theme.colors.brandPurple};
+  color: ${({ theme }) => theme.colors.onBrandPurple};
   font-weight: 700;
   text-decoration: none;
 
   &:hover {
-    background: ${({ theme }) => theme.colors.primaryHover};
+    border-color: ${({ theme }) => theme.colors.brandPurpleHover};
+    background: ${({ theme }) => theme.colors.brandPurpleHover};
+  }
+
+  &:focus-visible {
+    outline: 3px solid ${({ theme }) => theme.colors.focusRing};
+    outline-offset: 2px;
   }
 `
 

@@ -10,6 +10,8 @@
 
 > **Nota do Arquiteto:** o arquivo de diretrizes cita os identificadores `RF-01` a `RF-16` e `RN-01` a `RN-10`, mas não descreve cada um. O conteúdo abaixo é a **proposta inicial** de baseline. A aprovação deste documento é o que permite iniciar a implementação sem "alterar requisitos sem antes atualizar os documentos", conforme a regra das diretrizes.
 
+> **Nota de mapeamento (Etapa 7):** a solicitação original chama este escopo de `RF-14`/`RF-15`. Nesta baseline, `RF-14` é pagamento fictício e `RF-15` é finalização do pedido; tema claro/escuro é **RF-16**, enquanto responsividade e acessibilidade são **RNF-01** e **RNF-02**. A Etapa 7 materializa T-02, T-08 e T-16 sem renumerar requisitos já aprovados.
+
 ---
 
 ## 1. Visão geral
@@ -245,10 +247,11 @@ Cada requisito traz critérios **verificáveis** (observáveis em execução ou 
 **Descrição:** o cliente alterna entre os temas e a preferência é lembrada.
 
 **Critérios verificáveis:**
-- [ ] Existe um controle de alternância acessível por teclado em todas as páginas.
-- [ ] Alternar muda imediatamente fundos, textos, bordas, inputs e botões (sem elementos "claros" no tema escuro).
-- [ ] Após recarregar, o tema escolhido permanece.
-- [ ] Na primeira visita, o tema inicial respeita `prefers-color-scheme` quando disponível.
+- [ ] Existe um botão `ThemeToggle` no Header, acessível por teclado, com `aria-label`, `title` dinâmico e foco visível em todas as páginas.
+- [ ] Tokens semânticos claros/escuros (`background`, `surface`, `card`, `input`, `textTitle`, `textSubtitle`, `textLabel`, `border`, `brandYellow`, `brandPurple`, `feedbackError`) são usados em fundos, superfícies, textos, bordas, inputs, estados de hover/foco/selecionado/erro e botões.
+- [ ] Alternar muda imediatamente todo o app, sem cor literal remanescente nos componentes.
+- [ ] A preferência é salva em `@coffee-delivery:theme-1.0.0` e reaplicada após recarregar.
+- [ ] Sem preferência salva, o tema inicial respeita `window.matchMedia('(prefers-color-scheme: dark)')`; na ausência de API/sinal, usa `light`.
 
 ---
 
@@ -276,7 +279,7 @@ Cada requisito traz critérios **verificáveis** (observáveis em execução ou 
 | RNF-01 | **Responsividade mobile-first**, testável em 320 px, 375 px, 768 px e 1280 px+, sem rolagem horizontal involuntária. |
 | RNF-02 | **Acessibilidade WCAG 2.2 AA:** labels associados, navegação por teclado, foco visível, contraste adequado e mensagens de erro claras. |
 | RNF-03 | **Identidade visual:** logo original da marca e tipografias Baloo 2 (títulos) e Roboto (texto corrido). |
-| RNF-04 | **Tema por tokens semânticos:** nenhum elemento pode usar cor fixa que deixe de funcionar em light/dark. |
+| RNF-04 | **Tema por tokens semânticos:** nenhum elemento pode usar cor fixa que deixe de funcionar em light/dark. Tokens canônicos em `src/styles/themes/`. |
 | RNF-05 | **Idioma:** conteúdo em português do Brasil (`pt-BR`). |
 | RNF-06 | **Qualidade:** TypeScript em modo estrito, sem `any`, com imutabilidade no reducer e nos hooks. |
 | RNF-07 | **Verificação:** `npm run build` e `npm run lint` devem passar ao final de cada tarefa. |

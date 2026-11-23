@@ -1,7 +1,8 @@
 import type { PaymentMethod } from '../types/payment'
 
-/** Chave versionada do carrinho no localStorage (RN-10). */
+/** Chaves versionadas no localStorage (RN-10). */
 export const CART_STORAGE_KEY = '@coffee-delivery:cart-state-1.0.0'
+export const THEME_STORAGE_KEY = '@coffee-delivery:theme-1.0.0'
 
 /** Taxa fixa de entrega: R$ 3,50 (RN-02). */
 export const DELIVERY_FEE_IN_CENTS = 350
