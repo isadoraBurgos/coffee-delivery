@@ -118,7 +118,7 @@
 - **Status:** ⏳ Pendente
 - **Objetivo:** listar itens do carrinho com ajuste/remoção e exibir o resumo.
 - **Requisitos relacionados:** RF-06, RF-07, RF-09, RN-02, RN-03.
-- **Arquivos afetados:** `src/pages/Checkout.tsx`, `src/components/CartItemRow.tsx`, `src/components/OrderSummary.tsx`.
+- **Arquivos afetados:** `src/pages/Checkout.tsx`, `src/components/CartItem.tsx`, `src/components/CartSummary.tsx`, `src/components/EmptyCart.tsx`.
 - **Critério de pronto:** cada item mostra imagem, nome, preço, quantidade, subtotal e remover; decrementar de 1 remove; totais recalculam; carrinho vazio exibe estado vazio; build/lint ok.
 - **Commit sugerido:** `feat: implementa carrinho e resumo no checkout`
 
@@ -128,7 +128,7 @@
 - **Objetivo:**validar endereço e pagamento em um único schema tipado.
 - **Requisitos relacionados:** RF-11, RF-12, RF-13, RN-06, RN-07, RN-08.
 - **Arquivos afetados:** `src/schemas/checkoutSchema.ts`.
-- **Critério de pronto:** CEP exige 8 dígitos (com ou sem hífen); UF exige 2 letras; complemento opcional; pagamento obrigatório e restrito a `credit | debit | cash`; `CheckoutFormData` inferido do schema; build/lint ok.
+- **Critério de pronto:** CEP exige 8 dígitos (com ou sem hífen); UF exige 2 letras; complemento opcional; pagamento obrigatório e restrito a `credit | debit | money`; `CheckoutFormData` inferido do schema; build/lint ok.
 - **Commit sugerido:** `feat: adiciona schema de validação do checkout`
 
 ### T-11 — Cliente ViaCEP e hook de consulta
@@ -136,7 +136,7 @@
 - **Status:** ⏳ Pendente
 - **Objetivo:** consultar CEP e expor estados de carregamento/erro sem acoplar a UI ao `fetch`.
 - **Requisitos relacionados:** RF-11, RN-06, FA-01, FA-02.
-- **Arquivos afetados:** `src/utils/viacep.ts`, `src/hooks/useCepLookup.ts`.
+- **Arquivos afetados:** `src/services/viacep.ts`, `src/hooks/useCepLookup.ts`.
 - **Critério de pronto:** 8 dígitos válidos preenchem logradouro/bairro/cidade/UF; CEP inexistente retorna `null` sem lançar; requisição antiga é abortada; timeout ≈ 5 s; build/lint ok.
 - **Commit sugerido:** `feat: integra consulta de CEP com ViaCEP`
 
@@ -145,7 +145,7 @@
 - **Status:** ⏳ Pendente
 - **Objetivo:** implementar os campos com `zodResolver`, preenchimento automático e feedback de erro.
 - **Requisitos relacionados:** RF-11, RF-12, RF-13, RN-06, RN-07.
-- **Arquivos afetados:** `src/components/AddressForm.tsx`.
+- **Arquivos afetados:** `src/components/DeliveryAddressForm.tsx`.
 - **Critério de pronto:** labels associados; erros por campo com `aria-invalid`/`role="alert"`; foco no primeiro inválido; campos automáticos permanecem editáveis; build/lint ok.
 - **Commit sugerido:** `feat: implementa formulário de endereço com validação`
 
@@ -154,7 +154,7 @@
 - **Status:** ⏳ Pendente
 - **Objetivo:** permitir escolher uma das três opções fictícias.
 - **Requisitos relacionados:** RF-14, RN-08.
-- **Arquivos afetados:** `src/components/PaymentSelector.tsx`, `src/data/constants.ts`.
+- **Arquivos afetados:** `src/components/PaymentMethodSelector.tsx`, `src/data/constants.ts`.
 - **Critério de pronto:** exatamente três opções (crédito, débito, dinheiro); seleção única; obrigatória; nenhum dado de cartão solicitado; build/lint ok.
 - **Commit sugerido:** `feat: adiciona seleção de forma de pagamento`
 

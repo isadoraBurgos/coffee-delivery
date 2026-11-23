@@ -111,3 +111,6 @@ export const coffees: Coffee[] = [
     image: cafeIntenso,
   },
 ]
+
+/** Consulta rápida por id, usada pelo carrinho e pelo checkout. */
+export const coffeeById = new Map(coffees.map((coffee) => [coffee.id, coffee]))

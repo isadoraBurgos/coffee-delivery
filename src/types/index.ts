@@ -1,2 +1,5 @@
 export type { Coffee } from './coffee'
 export type { CartAction, CartItem, CartState } from './cart'
+export type { DeliveryAddress } from './address'
+export type { PaymentMethod } from './payment'
+export type { ViaCepResponse } from './viacep'

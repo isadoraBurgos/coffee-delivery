@@ -60,11 +60,12 @@ A aplicação segue uma arquitetura em camadas, com fronteiras explícitas:
 ```text
 src/
 ├── assets/        # imagens, logo original e ícones locais (atualmente vazia)
-├── components/    # componentes reutilizáveis (CoffeeCard, Header, AddressForm, ...)
+├── components/    # componentes reutilizáveis (CoffeeCard, Header, DeliveryAddressForm, ...)
 ├── pages/         # Home, Checkout, Success — uma página por rota
 ├── contexts/      # CartContext, OrderContext, ThemeContext + providers
 ├── reducers/      # cartReducer (puro) e seus tipos de ação
 ├── hooks/         # useCart, useTheme, useCepLookup e outros hooks customizados
+├── services/      # integrações externas (cliente ViaCEP)
 ├── data/          # catálogo local de cafés e constantes de negócio (taxa de entrega)
 ├── types/         # interfaces e types do domínio (Coffee, CartItem, Order, ...)
 ├── schemas/       # schemas zod (checkout, persistência do carrinho)
@@ -79,7 +80,7 @@ docs/              # PRD_SPEC.md, TECH_SPEC.md, TASKS_SPEC.md
 
 **Regras de colocação:**
 - Acesso a `localStorage` fica em `src/utils/storage.ts` — nunca diretamente em componentes.
-- O cliente ViaCEP fica em `src/utils/viacep.ts`; a orquestração (debounce, abort, estados) fica em `src/hooks/useCepLookup.ts`.
+- O cliente ViaCEP fica em `src/services/viacep.ts`; a orquestração (debounce, abort, estados) fica em `src/hooks/useCepLookup.ts`.
 - Toda constante de negócio (taxa de entrega, opções de pagamento, chaves de storage) fica em `src/data/constants.ts`.
 - Componentes não calculam totais: usam seletores derivados do context (`subtotalInCents`, `totalInCents`).
 
@@ -112,7 +113,7 @@ export interface DeliveryAddress {
   state: string               // UF com 2 letras
 }
 
-export type PaymentMethod = 'credit' | 'debit' | 'cash'
+export type PaymentMethod = 'credit' | 'debit' | 'money'
 
 export interface OrderItem {
   coffeeId: string
@@ -172,7 +173,7 @@ interface CartContextValue {
   itemCount: number           // soma das quantidades (RF-05)
   subtotalInCents: number     // derivado do catálogo (RF-09)
   subtotalFormatted: string   // BRL com 2 casas (RN-01)
-  totalInCents: number        // subtotal + taxa (RN-02) — ainda não implementado
+  totalInCents: number        // subtotal + taxa (RN-02)
   addCoffee: (coffee: Coffee, quantity: number) => void
   incrementItem: (coffeeId: string) => void
   decrementItem: (coffeeId: string) => void
@@ -211,7 +212,7 @@ O preço **não** é duplicado no carrinho: `subtotalInCents` é calculado com `
 
 | Dado | Chave | Formato |
 | --- | --- | --- |
-| Carrinho | `coffee-delivery:cart:v1` | `{ items: CartItem[] }` |
+| Carrinho | `@coffee-delivery:cart-state-1.0.0` | `{ items: CartItem[] }` |
 | Tema | `coffee-delivery:theme:v1` | `"light"` ou `"dark"` |
 
 Regras de implementação:
@@ -224,7 +225,7 @@ Regras de implementação:
 ## 7. Integração ViaCEP
 
 - **Endpoint:** `GET https://viacep.com.br/ws/{cep}/json/`, onde `{cep}` contém apenas os 8 dígitos.
-- **Cliente (`src/utils/viacep.ts`):** `fetchAddress(cep: string, signal?: AbortSignal): Promise<Partial<DeliveryAddress> | null>`; converte `erro: true` em `null`; trata status não-2xx como falha.
+- **Cliente (`src/services/viacep.ts`):** `fetchAddress(cep: string, signal?: AbortSignal): Promise<Partial<DeliveryAddress> | null>`; converte `erro: true` em `null`; trata status não-2xx e timeout (~5 s) como falha.
 - **Hook (`src/hooks/useCepLookup.ts`):** estados `idle | loading | success | error`; debounce de ~300 ms; `AbortController` para cancelar requisições antigas e timeout de ~5 s.
 - **Mapeamento:** `logradouro → street`, `bairro → neighborhood`, `localidade → city`, `uf → state`.
 - **Comportamento em falha:** mantém os campos editáveis e não bloqueia o envio do formulário (RN-06/FA-02).
@@ -244,7 +245,7 @@ const checkoutSchema = z.object({
   neighborhood: z.string().min(1, 'Informe o bairro'),
   city: z.string().min(1, 'Informe a cidade'),
   state: z.string().regex(/^[A-Za-z]{2}$/, 'UF inválida'),
-  paymentMethod: z.enum(['credit', 'debit', 'cash'], {
+  paymentMethod: z.enum(['credit', 'debit', 'money'], {
     error: 'Selecione uma forma de pagamento',
   }),
 })
@@ -293,10 +294,10 @@ const checkoutSchema = z.object({
 | --- | --- |
 | RF-01/02/03/04 | `src/data/coffees.ts`, `src/pages/Home.tsx`, `src/components/CoffeeCard.tsx`, `cartReducer` |
 | RF-05/10 | `src/components/Header.tsx`, `src/App.tsx` |
-| RF-06/07/08/09 | `src/contexts/CartContext.tsx`, `src/pages/Checkout.tsx`, `src/utils/storage.ts`, `src/utils/currency.ts` |
-| RF-11 | `src/utils/viacep.ts`, `src/hooks/useCepLookup.ts` |
-| RF-12/13 | `src/schemas/checkoutSchema.ts`, `src/components/AddressForm.tsx` |
-| RF-14 | `src/components/PaymentSelector.tsx`, `src/data/constants.ts` |
+| RF-06/07/08/09 | `src/contexts/CartContext.tsx`, `src/pages/Checkout.tsx`, `src/components/{CartItem,CartSummary,EmptyCart}.tsx`, `src/utils/storage.ts`, `src/utils/currency.ts` |
+| RF-11 | `src/services/viacep.ts`, `src/hooks/useCepLookup.ts` |
+| RF-12/13 | `src/schemas/checkoutSchema.ts`, `src/components/DeliveryAddressForm.tsx` |
+| RF-14 | `src/components/PaymentMethodSelector.tsx`, `src/data/constants.ts` |
 | RF-15 | `src/contexts/OrderContext.tsx`, `src/pages/Checkout.tsx` |
 | RF-16 | `src/contexts/ThemeContext.tsx`, `src/styles/theme.ts`, `src/styles/GlobalStyle.ts` |
 | RN-01/02 | `src/utils/currency.ts`, `src/data/constants.ts` |

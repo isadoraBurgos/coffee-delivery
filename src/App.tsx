@@ -2,6 +2,7 @@ import { BrowserRouter, Link, Navigate, Route, Routes } from 'react-router-dom'
 import styled from 'styled-components'
 import { Header } from './components/Header'
 import { CartProvider } from './contexts/CartContext'
+import { Checkout } from './pages/Checkout'
 import { Home } from './pages/Home'
 
 const PlaceholderMain = styled.main`
@@ -34,7 +35,7 @@ export default function App() {
 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/checkout" element={<Placeholder title="Checkout" />} />
+          <Route path="/checkout" element={<Checkout />} />
           <Route path="/success" element={<Placeholder title="Pedido confirmado" />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
