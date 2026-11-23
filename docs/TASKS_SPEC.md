@@ -23,6 +23,8 @@
 
 > **Refinamento de RNF-03 (T-19):** as ilustrações complementares da mascote no Hero da Home e na confirmação `/success` são registradas como uma tarefa separada, preservando o histórico do commit da T-18.
 
+> **Preparação para publicação (T-20):** fallbacks de SPA para Vercel e Netlify garantem que `/checkout` e `/success` sobrevivam a F5/recarregamento direto. A tarefa é registrada após T-19 sem alterar requisitos funcionais; **T-17 continua pendente** (testes automatizados).
+
 ## 2. Checklist ordenado
 
 - [x] **T-01** — Documentação de referência (concluída, aguardando validação)
@@ -44,6 +46,7 @@
 - [ ] **T-17** — Verificação final e testes automatizados
 - [x] **T-18** — Identidade visual com IA: logo, favicon e branding ✅ (Etapa 8)
 - [x] **T-19** — Ilustrações complementares da mascote no Hero e na confirmação ✅
+- [x] **T-20** — Fallback de rotas SPA para Vercel/Netlify ✅
 
 ---
 
@@ -220,6 +223,15 @@
 - **Critério de pronto:** Hero com imagem quadrada recortada e dimensionada progressivamente; `/success` com card e ilustração lado a lado a partir de 768 px e empilhados no mobile; molduras e fundos por tokens semânticos; `alt` descritivo; sem rolagem horizontal em 320/375/768/1280 px; build/lint ok.
 - **Commit sugerido:** `style: adiciona ilustrações da mascote no hero e na confirmação`
 
+### T-20 — Fallback de rotas SPA para Vercel/Netlify
+
+- **Status:** ✅ Concluída (preparação para publicação)
+- **Objetivo:** garantir que rotas client-side (`/checkout`, `/success`) sejam servidas pelo `index.html` quando recarregadas ou acessadas diretamente.
+- **Requisitos relacionados:** RF-10, RNF-01 (implícito), RNF-07.
+- **Arquivos afetados:** `vercel.json`, `public/_redirects`, `docs/TECH_SPEC.md`, `docs/TASKS_SPEC.md`.
+- **Critério de pronto:** `vercel.json` com rewrite `/(.*)` → `/index.html`; `public/_redirects` com `/* /index.html 200`; `npm run build` sem erros e `_redirects` presente em `dist/`; `git push origin main` concluído.
+- **Commit sugerido:** `fix: adiciona fallback de rotas para SPA no deploy`
+
 ---
 
 ## 4. Matriz de rastreabilidade
@@ -242,4 +254,4 @@
 
 ## 5. Pronto para começar
 
-As tarefas **T-01 a T-16**, **T-18** e **T-19** estão concluídas e validadas nas etapas anteriores. A próxima ação pendente é a **T-17 — Verificação final e testes automatizados**, a ser executada somente após a validação deste refinamento visual.
+As tarefas **T-01 a T-16**, **T-18**, **T-19** e **T-20** estão concluídas e validadas nas etapas anteriores. A próxima ação pendente continua sendo a **T-17 — Verificação final e testes automatizados**; a publicação em Vercel/Netlify já está habilitada pelo fallback de rotas.

@@ -318,3 +318,12 @@ const checkoutSchema = z.object({
 | RN-03/04/05/09 | `src/reducers/cartReducer.ts`, `src/contexts/OrderContext.tsx` |
 | RN-06/07/08 | `src/schemas/checkoutSchema.ts`, `src/hooks/useCepLookup.ts` |
 | RN-10 | `src/utils/storage.ts`, `src/schemas/cartSchema.ts` |
+
+## 14. Publicação (Vercel/Netlify)
+
+- **Build:** `npm run build` (`tsc -b && vite build`); diretório de saída `dist/`, detectado automaticamente por Vercel e Netlify para projetos Vite.
+- **Vercel:** `vercel.json` na raiz com `rewrites: [{ "source": "/(.*)", "destination": "/index.html" }]`. Arquivos estáticos existentes continuam sendo servidos diretamente; apenas rotas sem arquivo correspondente caem no fallback.
+- **Netlify:** `public/_redirects` com a linha `/*  /index.html  200`. Como está em `public/`, o Vite copia o arquivo para a raiz de `dist/` no build (status `200` mantém a URL original no navegador).
+- **Rotas protegidas pelo fallback:** `/checkout` e `/success` (RF-10). O pedido em `/success` continua existindo apenas em memória (RN-10), então um F5 direto sem pedido na sessão exibe o estado “Nenhum pedido encontrado”, conforme FA-06.
+- **Variáveis de ambiente:** nenhuma. A única integração externa é ViaCEP, API pública sem chave.
+- **Verificação:** após o push, basta importar o repositório na Vercel/Netlify; ambos usam `npm run build` e publicam `dist/` por padrão.
