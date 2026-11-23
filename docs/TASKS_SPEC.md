@@ -163,8 +163,8 @@
 - **Status:** ⏳ Pendente
 - **Objetivo:** criar o `Order` com snapshot, limpar o carrinho e navegar para `/success`.
 - **Requisitos relacionados:** RF-15, RN-05, RN-09.
-- **Arquivos afetados:** `src/contexts/OrderContext.tsx`, `src/pages/Checkout.tsx`, `src/main.tsx`.
-- **Critério de pronto:** pedido com id único, `createdAt`, itens/preços snapshot, endereço, pagamento e totais; carrinho vazio após finalizar inclusive no reload; bloqueio com formulário inválido ou carrinho vazio; build/lint ok.
+- **Arquivos afetados:** `src/types/order.ts`, `src/contexts/OrderContext.tsx`, `src/pages/Checkout.tsx`, `src/App.tsx`.
+- **Critério de pronto:** pedido com id único, `createdAt`, itens/preços snapshot, endereço, pagamento e totais; `clearCart()` após criar o pedido; carrinho vazio após finalizar inclusive no reload; bloqueio com formulário inválido ou carrinho vazio; build/lint ok.
 - **Commit sugerido:** `feat: implementa finalização do pedido`
 
 ### T-15 — Página de confirmação (`/success`)
@@ -172,8 +172,8 @@
 - **Status:** ⏳ Pendente
 - **Objetivo:** exibir o resumo do pedido e tratar acesso sem pedido.
 - **Requisitos relacionados:** RF-10, RF-15, RN-05, RN-10.
-- **Arquivos afetados:** `src/pages/Success.tsx`, `src/App.tsx`.
-- **Critério de pronto:** mostra número do pedido, itens, endereço, pagamento e total em BRL; link para a home; sem pedido em memória redireciona para `/`; build/lint ok.
+- **Arquivos afetados:** `src/components/OrderSuccess.tsx`, `src/pages/Success.tsx`, `src/App.tsx`.
+- **Critério de pronto:** mostra “Uhu! Pedido confirmado”, id do pedido, endereço completo, previsão de 20 a 30 minutos, pagamento e total em BRL em card com borda gradiente; link para a home; sem pedido em memória exibe “Nenhum pedido encontrado” e botão para `/`; build/lint ok.
 - **Commit sugerido:** `feat: adiciona tela de confirmação do pedido`
 
 ### T-16 — Varredura de responsividade e acessibilidade

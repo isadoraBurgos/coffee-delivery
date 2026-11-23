@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { CartItem } from '../components/CartItem'
 import { CartSummary } from '../components/CartSummary'
@@ -7,7 +8,9 @@ import { DeliveryAddressForm } from '../components/DeliveryAddressForm'
 import { EmptyCart } from '../components/EmptyCart'
 import { PaymentMethodSelector } from '../components/PaymentMethodSelector'
 import { useCart } from '../hooks/useCart'
+import { useOrder } from '../hooks/useOrder'
 import { checkoutSchema, type CheckoutFormData } from '../schemas/checkoutSchema'
+import type { DeliveryAddress } from '../types/address'
 
 const Page = styled.main`
   max-width: 1120px;
@@ -77,7 +80,10 @@ const Note = styled.p`
 `
 
 export function Checkout() {
-  const { items, itemCount } = useCart()
+  const { items, itemCount, subtotalInCents, deliveryFeeInCents, totalInCents, clearCart } =
+    useCart()
+  const { createOrder } = useOrder()
+  const navigate = useNavigate()
 
   const form = useForm<CheckoutFormData>({
     resolver: zodResolver(checkoutSchema),
@@ -95,12 +101,28 @@ export function Checkout() {
   })
 
   function handleValidSubmit(data: CheckoutFormData) {
-    if (itemCount === 0) {
+    if (items.length === 0) {
       return
     }
 
-    // A próxima etapa cria o Order, limpa o carrinho e navega para /success.
-    console.info('[coffee-delivery] checkout validado, pronto para finalizar:', data)
+    const address: DeliveryAddress = {
+      cep: data.cep,
+      street: data.street,
+      number: data.number,
+      complement: data.complement || undefined,
+      neighborhood: data.neighborhood,
+      city: data.city,
+      state: data.state,
+    }
+
+    // A ordem importa: o pedido é congelado antes de o carrinho ser esvaziado.
+    createOrder(address, data.paymentMethod, items, {
+      subtotalInCents,
+      deliveryFeeInCents,
+      totalInCents,
+    })
+    clearCart()
+    navigate('/success')
   }
 
   return (

@@ -196,9 +196,10 @@ O preço **não** é duplicado no carrinho: `subtotalInCents` é calculado com `
 
 ### 5.2 Pedido (`OrderContext`)
 
-- Estado: `Order | null`, apenas em memória.
-- `createOrder(address, paymentMethod, items, totals)` gera `id`, `createdAt`, snapshot e limpa o carrinho em seguida.
-- A rota `/success` lê esse context; se `order === null`, redireciona para `/` (FA-06/RN-05).
+- Estado: `Order | null`, apenas em memória (o carrinho é persistido; o último pedido não é — RN-10/FA-05).
+- `createOrder(formData, items, totals)` gera `id`/`createdAt`, congela nome/preço/quantidade em `OrderItem[]` e retorna o `Order`. O `clearCart()` é disparado pelo checkout **depois** que o pedido foi criado.
+- O snapshot é uma estrutura nova: limpar `CartState` ou alterar o catálogo não altera o `Order`.
+- A rota `/success` lê esse context; se `order === null`, `OrderSuccess` exibe “Nenhum pedido encontrado” e um botão para `/` (FA-06/RN-05).
 - Nada deste context vai para `localStorage` (RN-10).
 
 ### 5.3 Tema (`ThemeContext`)
@@ -261,7 +262,7 @@ const checkoutSchema = z.object({
 | --- | --- | --- |
 | `/` | `Home` | Catálogo e seleção de quantidades (RF-01 a RF-04). |
 | `/checkout` | `Checkout` | Carrinho, endereço, pagamento e resumo (RF-06 a RF-14). |
-| `/success` | `Success` | Confirmação; redireciona para `/` se não houver pedido (RF-15/RN-05). |
+| `/success` | `Success` → `OrderSuccess` | Confirmação; sem pedido em memória, exibe mensagem e botão para `/` (RF-15/RN-05/FA-06). |
 | `*` | `Navigate to="/"` | Rota desconhecida (FA-07). |
 
 `App.tsx` apenas compõe `BrowserRouter`, os providers e `<Routes>`; a navegação usa `<Link>`/`<Navigate>` e `useNavigate()`.
@@ -298,7 +299,7 @@ const checkoutSchema = z.object({
 | RF-11 | `src/services/viacep.ts`, `src/hooks/useCepLookup.ts` |
 | RF-12/13 | `src/schemas/checkoutSchema.ts`, `src/components/DeliveryAddressForm.tsx` |
 | RF-14 | `src/components/PaymentMethodSelector.tsx`, `src/data/constants.ts` |
-| RF-15 | `src/contexts/OrderContext.tsx`, `src/pages/Checkout.tsx` |
+| RF-15 | `src/types/order.ts`, `src/contexts/OrderContext.tsx`, `src/pages/Checkout.tsx`, `src/components/OrderSuccess.tsx`, `src/pages/Success.tsx` |
 | RF-16 | `src/contexts/ThemeContext.tsx`, `src/styles/theme.ts`, `src/styles/GlobalStyle.ts` |
 | RN-01/02 | `src/utils/currency.ts`, `src/data/constants.ts` |
 | RN-03/04/05/09 | `src/reducers/cartReducer.ts`, `src/contexts/OrderContext.tsx` |

@@ -88,7 +88,7 @@ flowchart TD
 | FA-03 | Campos obrigatórios vazios/inválidos | Envio bloqueado, mensagens por campo, foco no primeiro campo inválido. |
 | FA-04 | Carrinho vazio em `/checkout` | Estado vazio com link para a home; botão **Finalizar pedido** desabilitado. |
 | FA-05 | Recarregar a página | Carrinho e tema são restaurados do `localStorage`; o pedido **não** é restaurado. |
-| FA-06 | Acessar `/success` sem pedido em andamento | Redirecionamento para `/`. |
+| FA-06 | Acessar `/success` sem pedido confirmado em memória | Mensagem clara de que nenhum pedido foi encontrado e botão para voltar à Home (`/`). |
 | FA-07 | Rota desconhecida | Redirecionamento para `/`. |
 | FA-08 | `localStorage` corrompido ou indisponível | Dados inválidos são descartados; a aplicação continua com estado inicial seguro. |
 | FA-09 | Alternar tema | Preferência aplicada imediatamente e persistida para a próxima visita. |
@@ -233,10 +233,12 @@ Cada requisito traz critérios **verificáveis** (observáveis em execução ou 
 **Descrição:** a confirmação cria um pedido, limpa o carrinho e navega para a confirmação.
 
 **Critérios verificáveis:**
-- [ ] Com formulário válido e carrinho não vazio, o clique em finalizar leva à rota `/success`.
+- [ ] Com formulário válido e carrinho não vazio, o clique em **Confirmar Pedido** cria o pedido, limpa o carrinho e leva à rota `/success`.
 - [ ] O pedido criado contém snapshot dos itens, endereço, pagamento e totais.
+- [ ] A tela de confirmação exibe “Uhu! Pedido confirmado”, endereço completo, previsão de entrega de 20 a 30 minutos e forma de pagamento.
 - [ ] Após a finalização, o carrinho está vazio (inclusive após recarregar a página).
 - [ ] Com carrinho vazio ou formulário inválido, nenhum pedido é criado.
+- [ ] Sem pedido confirmado em memória, `/success` exibe “Nenhum pedido encontrado” com botão para a Home.
 
 ### RF-16 — Tema claro e escuro
 
@@ -258,7 +260,7 @@ Cada requisito traz critérios **verificáveis** (observáveis em execução ou 
 | **RN-02** | A taxa de entrega é fixa em **R$ 3,50** (350 centavos) por pedido, cobrada uma única vez. | `total = subtotal + 350`; com carrinho vazio, `total = 0`. |
 | **RN-03** | A quantidade mínima por item é **1**. No catálogo o decremento é desabilitado em 1; no carrinho, decrementar de 1 **remove** o item. | Nenhum item com quantidade ≤ 0 é mantido no estado ou persistido. |
 | **RN-04** | Adicionar um café já presente **soma** quantidades. A identidade do item é o `coffeeId`. | O carrinho nunca contém duas linhas com o mesmo `coffeeId`. |
-| **RN-05** | Não é possível finalizar com carrinho vazio. `/checkout` exibe estado vazio e `/success` sem pedido em memória redireciona para `/`. | Botão de finalização desabilitado e nenhum `Order` criado. |
+| **RN-05** | Não é possível finalizar com carrinho vazio. `/checkout` exibe estado vazio e `/success` sem pedido em memória exibe mensagem clara com botão para a Home. | Botão de finalização desabilitado e nenhum `Order` criado. |
 | **RN-06** | O CEP deve ter 8 dígitos (formato `00000-000` ou `00000000`). ViaCEP é consultado somente com 8 dígitos válidos; erro, timeout ou `erro: true` não bloqueia o preenchimento manual. | Campos automáticos (logradouro, bairro, cidade, UF) podem ser sobrescritos pelo usuário. |
 | **RN-07** | São obrigatórios: nome completo, CEP válido, logradouro, número, bairro, cidade e UF (2 letras). Complemento é opcional. | Formulário inválido impede a finalização. |
 | **RN-08** | As únicas formas de pagamento são: Cartão de Crédito (`credit`), Cartão de Débito (`debit`) e Dinheiro (`money`). É obrigatório selecionar uma, e a opção não altera o valor do pedido. | Nenhum dado financeiro real é coletado ou enviado. |
